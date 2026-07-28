@@ -1,5 +1,5 @@
 import { Coffee, Server, GitBranch } from "lucide-react";
-import CircuitBeams from "./CircuitBeams";
+// import CircuitBeams from "./CircuitBeams";
 
 const stats = [
   { value: "5+", label: "Years building" },
@@ -46,20 +46,28 @@ export default function About() {
               <br />
               <span className="text-sky-dim">that quietly scale.</span>
             </h2>
-            <CircuitBeams
+            {/* <CircuitBeams
   paths={{
     desktop: [
-      "M1 48L180 47",
-      "M180 47.3601L269.12 2",
-      "M269 2L448 1"
-    ],
+  "M80 75 H260 L310 35 H520",
+
+  "M560 140 H760 V210 H830",
+
+  "M60 120 V500 H150",
+
+  "M280 560 H640 L690 520 H920",
+
+  "M760 150 H930 V500 H760",
+
+  "M930 500 V560 H980",
+],
 
     mobile: [
       "M0 80 L120 80 L120 40 L250 40",
       "M300 500 L300 350 L180 350",
     ],
   }}
-/>
+/> */}
 
             <div className="mt-8 space-y-5 font-body text-base leading-relaxed text-silver/80 sm:text-lg">
               <p>

@@ -97,8 +97,8 @@ export default function Navbar() {
     >
       <div className="flex justify-between items-center px-6 pt-6 pb-3 md:py-4">
         <div className="flex items-center gap-3 cursor-pointer">
-          <ChessKing className="w-7 h-7 text-[#bec6e0]" />
-          <span className="font-body font-black text-lg sm:text-xl md:text-3xl tracking-tighter text-[#bec6e0]">
+          <ChessKing className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
+          <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
             ΛRPΛN
           </span>
          
