@@ -39,7 +39,7 @@ const itemVariants: Variants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: EASE },
+    transition: { duration: 2, ease: EASE },
   },
 };
 
@@ -50,7 +50,7 @@ const blurReveal: Variants = {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.85, ease: EASE },
+    transition: { duration: 2, ease: EASE },
   },
 };
 
@@ -78,7 +78,7 @@ export default function About() {
   const reduce = useReducedMotion();
 
   // When reduced motion is preferred, collapse animations to a plain fade
-  const viewport = { once: true, amount: 0.25 };
+  const viewport = { once: true, amount: 0.45 };
 
   return (
     <motion.section
@@ -95,7 +95,7 @@ export default function About() {
           className="font-['Manrope'] text-sm sm:text-lg font-bold tracking-[0.25em] sm:tracking-[0.3em] uppercase mb-6 sm:mb-8 flex items-center gap-3 sm:gap-4"
           initial={reduce ? { opacity: 0 } : { color: "#3a6b85" }}
           whileInView={reduce ? { opacity: 1 } : { color: "#7bd0ff" }}
-          viewport={viewport}
+          viewport = {viewport}
           transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
         >
           <motion.span
