@@ -212,7 +212,7 @@ html {
 }
 
 .animate-fadeUp {
-  animation: fadeUp 0.8s ease forwards;
+  animation: fadeUp 0.9s ease forwards;
 }
 
 .animate-delay-1 { animation-delay: 0.1s; }
