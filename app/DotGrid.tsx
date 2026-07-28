@@ -20,7 +20,7 @@ export default function DotGrid({
   className = "",
   gap = 30,
   dotSize = 3,
-  glowRadius = 100,
+  glowRadius = 120,
   restColor = "oklch(0.60 0.04 260)",
   activeColor = "oklch(0.98 0.005 260)",
 }: DotGridProps) {

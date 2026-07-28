@@ -1,164 +1,329 @@
-import Image from "next/image";
+"use client";
 import { AppWindowMac } from "lucide-react";
-export default function Projects() {
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+
+import GridBackground from "./GridBackground";
+import project1 from "./project-1.jpg";
+import project2 from "./project-2.jpg";
+import Image from "next/image";
+
+// Apple-style easing shared across every motion in this section.
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+// Orchestrates children reveals across the section.
+const staggerContainer: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.11, delayChildren: 0.05 },
+  },
+};
+
+// Slightly tighter stagger for tech chips inside a card.
+const chipContainer: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.05, delayChildren: 0.15 },
+  },
+};
+
+// Generic fade + rise (paragraphs, labels, small text).
+const fadeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+};
+
+// Card container: fade + rise + soft blur removal. GPU-friendly (opacity/transform + filter).
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.75, ease: EASE },
+  },
+};
+
+// Heading line reveal — same feel as About section for continuity.
+const blurReveal: Variants = {
+  hidden: { opacity: 0, y: 12, filter: "blur(6px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: EASE },
+  },
+};
+
+// Tech chip pill — no hover state, stays muted at all times.
+function Chip({ label }: { label: string }) {
   return (
-    <section className="scroll-mt-10 max-w-7xl mx-auto px-6 py-24" id="projects">
-      <h2 className="font-['Manrope'] text-lg font-bold tracking-[0.3em] text-[#7bd0ff] uppercase mb-12 flex items-center gap-4 opacity-0 animate-fadeUp">
-        <span className="w-8 h-[1px] bg-[#7bd0ff]" />
-        02 // PROJECTS
-      </h2>
+    <motion.span
+      variants={fadeUpVariants}
+      className="font-['JetBrains_Mono'] text-[10px] bg-[#2d3449] px-2 py-1 rounded text-[#b9c7e0] border border-[#45464d]/20 cursor-default"
+    >
+      {label}
+    </motion.span>
+  );
+}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+// macOS-style window icon top-right of each card.
+// Desktop: dim at rest, glows accent-blue on card hover.
+// Mobile: permanently in glowing state (media-query utility classes below).
+function WindowIcon() {
+  return (
+    <span className="relative shrink-0">
+      {/* Soft glow — hidden on desktop until hover, always on mobile. */}
+      {/* <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -m-2 rounded-full bg-[#7bd0ff]/25 blur-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
+      /> */}
+      <AppWindowMac
+        className="relative h-5 w-5 text-[#7bd0ff] md:text-[#7bd0ff]/40 md:saturate-50
+                   md:group-hover:text-[#7bd0ff] md:group-hover:saturate-100
+                   md:group-hover:-translate-y-0.5
+                   transition-all duration-300 ease-out"
+      />
+    </span>
+  );
+}
 
-        {/* Large Card */}
-        <div className="md:col-span-2 p-8 bg-[#171f33] rounded-lg border border-[#45464d]/10 relative group
-          opacity-0 animate-fadeUp animate-delay-1
-          transition-all duration-300
-          hover:-translate-y-2 hover:shadow-[0_0_35px_rgba(123,208,255,0.15)]
-          hover:border-[#7bd0ff]/30"
+// Card wrapper — hover behavior kept intentionally restrained (no scale/rotate/glow border).
+function Card({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      variants={cardVariants}
+      whileHover={
+        reduce
+          ? undefined
+          : {
+              y: -4,
+              backgroundColor: "rgba(27,35,54,1)",
+              borderColor: "rgba(123,208,255,0.22)",
+              boxShadow: "0 18px 40px -22px rgba(0,0,0,0.55)",
+            }
+      }
+      transition={{ duration: 0.25, ease: EASE }}
+      className={`group relative rounded-lg border border-[#45464d]/10 ${className}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default function Projects() {
+  const reduce = useReducedMotion();
+  const viewport = { once: true, amount: 0.25 };
+
+  return (
+    <motion.section
+      id="projects"
+      className="relative overflow-hidden scroll-mt-10 w-full"
+      initial="hidden"
+      whileInView="show"
+      viewport={viewport}
+      variants={staggerContainer}
+    >
+      <GridBackground />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+        {/* Section label — line grows, then label fades up (matches About). */}
+        <motion.h2
+          className="font-['Manrope'] text-sm sm:text-base font-bold tracking-[0.25em] sm:tracking-[0.3em] text-[#7bd0ff] uppercase mb-10 sm:mb-12 flex items-center gap-3 sm:gap-4"
+          variants={fadeUpVariants}
         >
-          <div className="flex justify-between items-start mb-8">
-            <div>
-              <h3 className="font-['Manrope'] text-2xl sm:text-3xl font-bold text-[#dae2fd] mb-2">
-                NEURAL_STREAM V4
-              </h3>
-              <p className="text-[#b8c1ec] max-w-md">
-                Real-time processing engine for high-frequency trading data, utilizing Kafka and
-                specialized Go routines for{" "}
-                <span className="font-['JetBrains_Mono'] text-[#7bd0ff]">2ms latency</span>.
-              </p>
-            </div>
+          <motion.span
+            className="h-[1px] w-8 bg-[#7bd0ff] origin-left block"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={viewport}
+            transition={{ duration: 0.8, ease: EASE }}
+          />
+          <motion.span variants={blurReveal}>02 // PROJECTS</motion.span>
+        </motion.h2>
 
-            <span className="material-symbols-outlined text-4xl text-[#7bd0ff]/20 
-              group-hover:text-[#7bd0ff] transition-all duration-300 
-              group-hover:scale-110">
-              <AppWindowMac/>
-            </span>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            {["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"].map((tag) => (
-              <span
-                key={tag}
-                className="font-['JetBrains_Mono'] text-[10px] bg-[#2d3449] px-2 py-1 rounded text-[#b9c7e0] border border-[#45464d]/20
-                transition-all duration-300 hover:bg-[#7bd0ff]/10"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-8 opacity-40 group-hover:opacity-100 transition-all duration-500">
-            <Image
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFnFENQU0NR8aPNKiyAw1wuRK_NYFlORooBAWmefvkfdNmUu5Pl3sIskvp90mE9VmniCK5yaPuZemu3RPD-Ku_QRsADj3S8Cw95Tg1jO_tvFstkVcid-0fwFydYzJmPZs9qFccUvyhxJ9RAQnimyD38zQUxo5nV17suakN4Sz3QWzQHNNpm-cwO3kV-iOWXBo6TUsNehh90031AVeOp9VO8JS9xezRdDKu5jGKeJd5UN6cUjhVLK7xLwiAEZ75bP1A3-8eOWFmL9uQ"
-              alt=""
-              width={800}
-              height={192}
-              className="w-full h-48 object-cover rounded grayscale 
-              group-hover:grayscale-0 group-hover:scale-[1.03]
-              transition-all duration-500"
-              unoptimized
-            />
-          </div>
-        </div>
-
-        {/* Small Card 1 */}
-        <div className="p-8 bg-[#131b2e] rounded-lg border border-[#45464d]/10 flex flex-col justify-between
-          opacity-0 animate-fadeUp animate-delay-2
-          transition-all duration-300
-          hover:-translate-y-2 hover:bg-[#1b2336]
-          hover:border-[#7bd0ff]/30 hover:shadow-[0_0_25px_rgba(123,208,255,0.12)]"
+        {/* Grid — reveals its children (cards) in DOM order with stagger. */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6"
+          variants={staggerContainer}
         >
-          <div>
-            <span className="text-[10px] text-[#7bd0ff]/60 tracking-widest uppercase mb-4 block">
-              SaaS_Product
-            </span>
-            <h3 className="text-xl font-bold text-[#dae2fd] mb-4">
-              SENTINEL_AUTH
-            </h3>
-            <p className="text-sm text-[#9aa4d4] mb-6">
-              Zero-trust authentication provider built as a sidecar proxy for microservices.
-              Integrated with AWS KMS.
-            </p>
-          </div>
+          {/* Large Card */}
+          <Card className="md:col-span-2 p-6 sm:p-7 lg:p-8 bg-[#171f33]">
+            <motion.div
+              className="flex justify-between items-start gap-4 mb-6 sm:mb-7"
+              variants={staggerContainer}
+            >
+              <motion.div variants={fadeUpVariants} className="min-w-0">
+                <h3 className="font-['Manrope'] text-xl sm:text-2xl lg:text-[26px] font-bold text-[#dae2fd] mb-2">
+                  NEURAL_STREAM V4
+                </h3>
+                <motion.p
+                  variants={fadeUpVariants}
+                  className="text-sm sm:text-[15px] text-[#b8c1ec] max-w-md leading-relaxed"
+                >
+                  Real-time processing engine for high-frequency trading data,
+                  utilizing Kafka and specialized Go routines for{" "}
+                  <span className="font-mono text-[#7bd0ff]">2ms latency</span>.
+                </motion.p>
+              </motion.div>
+              <WindowIcon />
+            </motion.div>
 
-          <div className="flex flex-wrap gap-2">
-            {["RUST", "AWS_SDK"].map((tag) => (
-              <span key={tag} className="text-[10px] bg-[#2d3449] px-2 py-1 rounded text-[#b9c7e0]">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Small Card 2 */}
-        <div className="p-8 bg-[#131b2e] rounded-lg border border-[#45464d]/10 flex flex-col justify-between
-          opacity-0 animate-fadeUp animate-delay-3
-          transition-all duration-300
-          hover:-translate-y-2 hover:bg-[#1b2336]
-          hover:border-[#7bd0ff]/30 hover:shadow-[0_0_25px_rgba(123,208,255,0.12)]"
-        >
-          <div>
-            <span className="text-[10px] text-[#7bd0ff]/60 tracking-widest uppercase mb-4 block">
-              Open_Source
-            </span>
-            <h3 className="text-xl font-bold text-[#dae2fd] mb-4">
-              PY_FLOW_GEN
-            </h3>
-            <p className="text-sm text-[#9aa4d4] mb-6">
-              A minimalist Python library for generating DAG-based workflows with native typing
-              and async support.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {["PYTHON_3.11", "PYPI"].map((tag) => (
-              <span key={tag} className="text-[10px] bg-[#2d3449] px-2 py-1 rounded text-[#b9c7e0]">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Medium Card */}
-        <div className="md:col-span-2 p-8 bg-[#171f33] rounded-lg border border-[#45464d]/10 relative flex gap-8 items-center overflow-hidden
-          opacity-0 animate-fadeUp animate-delay-4
-          transition-all duration-300
-          hover:-translate-y-2 hover:shadow-[0_0_35px_rgba(123,208,255,0.15)]
-          hover:border-[#7bd0ff]/30"
-        >
-          <div className="flex-1">
-            <h3 className="text-xl sm:text-2xl font-bold text-[#dae2fd] mb-4">
-              GRAPH_SCHEMA_VIZ
-            </h3>
-            <p className="text-[#b8c1ec] mb-6">
-              Interactive schema visualizer for GraphQL and Neo4j. Handles schemas with 500+
-              nodes without UI lag.
-            </p>
-
-            <div className="flex flex-wrap gap-3">
-              {["REACT", "D3.JS", "NEO4J"].map((tag) => (
-                <span key={tag} className="text-[10px] bg-[#2d3449] px-2 py-1 rounded text-[#b9c7e0] border border-[#45464d]/20">
-                  {tag}
-                </span>
+            <motion.div
+              className="flex flex-wrap gap-2 sm:gap-3"
+              variants={chipContainer}
+            >
+              {["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"].map((t) => (
+                <Chip key={t} label={t} />
               ))}
-            </div>
-          </div>
+            </motion.div>
 
-          <div className="w-1/3 hidden lg:block">
-            <Image
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTN9g-vA3Xp41ec2ZnLK-zF2R2321YbMuqBCGXn-Ror6cujTazBkx2YhTqoN2zp8C0aQfBHlA3gbqJsO-wMZzW6p4nJ54UXLlqGhOZCjOviwyvYBTLclfQM5arPd-gHZQT-dU8xfLbyFpl6ttEXaFTPVgY4L8EmRoi7STznUJ5T1f_aRvgH6MMWIiFrHHEJYNAba57T0ounn1rUgKdcM9OiOvVsCWj-n62FFQqEFsX8vex1ibpa4A24lfw9s0hru-mGCXGsNyLJU0B"
-              alt=""
-              width={400}
-              height={160}
-              className="w-full h-40 object-cover rounded opacity-20 
-              group-hover:opacity-40 transition-all duration-500"
-              unoptimized
-            />
-          </div>
-        </div>
+            {/* Image fades with card, brightens + de-saturates on hover. */}
+            <motion.div
+              variants={fadeUpVariants}
+              className="mt-6 sm:mt-7 overflow-hidden rounded"
+            >
+              <Image
+                src={project1}
+                alt=""
+                width={800}
+                height={192}
+                loading="lazy"
+                className="w-full h-40 sm:h-44 lg:h-48 object-cover rounded
+                           opacity-90 md:grayscale
+                           transition-all duration-500 ease-out
+                           group-hover:opacity-100 group-hover:grayscale-0
+                           group-hover:scale-[1.015]"
+              />
+            </motion.div>
+          </Card>
 
+          {/* Small Card 1 */}
+          <Card className="p-6 sm:p-7 lg:p-8 bg-[#131b2e] flex flex-col justify-between">
+            <motion.div variants={staggerContainer}>
+              <motion.div
+                className="flex items-start justify-between gap-3 mb-3"
+                variants={fadeUpVariants}
+              >
+                <span className="text-[10px] text-[#7bd0ff]/60 tracking-widest uppercase block">
+                  SaaS_Product
+                </span>
+                <WindowIcon />
+              </motion.div>
+              <motion.h3
+                variants={fadeUpVariants}
+                className="text-lg sm:text-xl font-bold text-[#dae2fd] mb-3"
+              >
+                SENTINEL_AUTH
+              </motion.h3>
+              <motion.p
+                variants={fadeUpVariants}
+                className="text-sm text-[#9aa4d4] mb-6 leading-relaxed"
+              >
+                Zero-trust authentication provider built as a sidecar proxy for
+                microservices. Integrated with AWS KMS.
+              </motion.p>
+            </motion.div>
+
+            <motion.div className="flex flex-wrap gap-2" variants={chipContainer}>
+              {["RUST", "AWS_SDK"].map((t) => (
+                <Chip key={t} label={t} />
+              ))}
+            </motion.div>
+          </Card>
+
+          {/* Small Card 2 */}
+          <Card className="p-6 sm:p-7 lg:p-8 bg-[#131b2e] flex flex-col justify-between">
+            <motion.div variants={staggerContainer}>
+              <motion.div
+                className="flex items-start justify-between gap-3 mb-3"
+                variants={fadeUpVariants}
+              >
+                <span className="text-[10px] text-[#7bd0ff]/60 tracking-widest uppercase block">
+                  Open_Source
+                </span>
+                <WindowIcon />
+              </motion.div>
+              <motion.h3
+                variants={fadeUpVariants}
+                className="text-lg sm:text-xl font-bold text-[#dae2fd] mb-3"
+              >
+                PY_FLOW_GEN
+              </motion.h3>
+              <motion.p
+                variants={fadeUpVariants}
+                className="text-sm text-[#9aa4d4] mb-6 leading-relaxed"
+              >
+                A minimalist Python library for generating DAG-based workflows
+                with native typing and async support.
+              </motion.p>
+            </motion.div>
+
+            <motion.div className="flex flex-wrap gap-2" variants={chipContainer}>
+              {["PYTHON_3.11", "PYPI"].map((t) => (
+                <Chip key={t} label={t} />
+              ))}
+            </motion.div>
+          </Card>
+
+          {/* Medium Card */}
+          <Card className="md:col-span-2 p-6 sm:p-7 lg:p-8 bg-[#171f33] flex gap-6 lg:gap-8 items-center overflow-hidden">
+            <motion.div variants={staggerContainer} className="flex-1 min-w-0">
+              <motion.div
+                className="flex items-start justify-between gap-3 mb-3"
+                variants={fadeUpVariants}
+              >
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#dae2fd]">
+                  GRAPH_SCHEMA_VIZ
+                </h3>
+                <WindowIcon />
+              </motion.div>
+              <motion.p
+                variants={fadeUpVariants}
+                className="text-sm sm:text-[15px] text-[#b8c1ec] mb-5 leading-relaxed"
+              >
+                Interactive schema visualizer for GraphQL and Neo4j. Handles
+                schemas with 500+ nodes without UI lag.
+              </motion.p>
+
+              <motion.div
+                className="flex flex-wrap gap-2 sm:gap-3"
+                variants={chipContainer}
+              >
+                {["REACT", "D3.JS", "NEO4J"].map((t) => (
+                  <Chip key={t} label={t} />
+                ))}
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUpVariants}
+              className="w-1/3 hidden lg:block"
+            >
+              <Image
+                src={project2}
+                alt=""
+                width={400}
+                height={160}
+                loading="lazy"
+                className="w-full h-36 object-cover rounded
+                           opacity-90 md:grayscale
+                           transition-all duration-500 ease-out
+                           group-hover:opacity-90 group-hover:grayscale-0
+                           group-hover:scale-[1.015]"
+              />
+            </motion.div>
+          </Card>
+        </motion.div>
       </div>
-    </section>
+      {/* Reduced-motion is respected via useReducedMotion; keeps this a no-op if user prefers. */}
+      {reduce ? null : null}
+    </motion.section>
   );
 }
