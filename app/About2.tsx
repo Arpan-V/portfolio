@@ -267,12 +267,12 @@ function Row({
       {/* Icon container — subtle rotate settle + hover brighten */}
       <motion.span
         variants={iconVariants}
-        whileHover={
-          reduce
-            ? undefined
-            : { borderColor: "rgba(255,255,255,0.3)", color: "#7bd0ff" }
-        }
-        transition={{ duration: 0.22, ease: EASE }}
+        // whileHover={
+        //   reduce
+        //     ? undefined
+        //     : { borderColor: "rgba(255,255,255,0.3)", color: "#7bd0ff" }
+        // }
+        // transition={{ duration: 0.22, ease: EASE }}
         className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center border border-border/60 text-primary"
       >
         {icon}
