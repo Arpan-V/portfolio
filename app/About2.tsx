@@ -166,16 +166,16 @@ export default function About() {
                   <motion.li
                     key={item}
                     variants={itemVariants}
-                    whileHover={
-                      reduce
-                        ? undefined
-                        : {
-                            y: -2,
-                            backgroundColor: "rgba(255,255,255,0.04)",
-                            borderColor: "rgba(255,255,255,0.28)",
-                          }
-                    }
-                    transition={{ duration: 0.22, ease: EASE }}
+                    // whileHover={
+                    //   reduce
+                    //     ? undefined
+                    //     : {
+                    //         y: -2,
+                    //         backgroundColor: "rgba(255,255,255,0.04)",
+                    //         borderColor: "rgba(255,255,255,0.28)",
+                    //       }
+                    // }
+                    // transition={{ duration: 0.22, ease: EASE }}
                     className="border border-border/60 px-3 py-1.5 font-body text-sm text-silver/90 cursor-default"
                   >
                     {item}
