@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Manrope, Space_Grotesk, JetBrains_Mono, Geist, Geist_Mono } from "next/font/google";
+
+import {
+  Manrope,
+  Space_Grotesk,
+  JetBrains_Mono,
+} from "next/font/google";
+
+import Navbar from "./Navbar";
+import Footer from "./Footer2";
 
 const manrope = Manrope({
   subsets: ["latin"],
   weight: ["400", "700", "800"],
   variable: "--font-manrope",
-});
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
 });
 
 const spaceGrotesk = Space_Grotesk({
@@ -32,26 +30,35 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Arpan Verma",
-  description:"Software Engineer building scalable, reliable systems with a focus on architectural integrity."};
+  title: {
+    default: "Arpan Verma",
+    template: "%s | Arpan Verma",
+  },
+  description:
+    "Software Engineer building scalable, reliable systems with a focus on architectural integrity.",
+  themeColor: "#050b18",
+};
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html
-      lang="en"
-      className={`dark
-${manrope.variable}
-${spaceGrotesk.variable}
-${jetbrainsMono.variable}
-${geistSans.variable}
-${geistMono.variable}
-`}
-    >
-      <body>{children}</body>
-    </html>
+  lang="en"
+  className={`
+    dark
+    ${manrope.variable}
+    ${spaceGrotesk.variable}
+    ${jetbrainsMono.variable}
+  `}
+>
+  <body className="antialiased">
+    <Navbar />
+    <main>{children}</main>
+    <Footer />
+  </body>
+</html>
   );
 }

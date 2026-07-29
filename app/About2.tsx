@@ -154,7 +154,7 @@ export default function About() {
             <div className="mt-10">
               <motion.p
                 variants={itemVariants}
-                className="font-display text-xs uppercase tracking-[0.25em] text-silver/60"
+                className="font-display text-xs uppercase tracking-[0.25em]"
               >
                 Working with
               </motion.p>
@@ -176,7 +176,7 @@ export default function About() {
                     //       }
                     // }
                     // transition={{ duration: 0.22, ease: EASE }}
-                    className="border border-border/60 px-3 py-1.5 font-body text-sm text-silver/90 cursor-default"
+                    className="border border-[#7bd0ff] text-[#7bd0ff] px-3 py-1.5 font-body text-sm cursor-default"
                   >
                     {item}
                   </motion.li>
@@ -222,7 +222,7 @@ export default function About() {
 
               {/* Info rows — sequential reveal */}
               <motion.div
-                className="mt-10 space-y-5 border-t border-border/50 pt-8"
+                className="mt-10 space-y-5 border-t border-[#7bd0ff] pt-8"
                 variants={staggerContainer}
               >
                 <Row
@@ -273,7 +273,7 @@ function Row({
         //     : { borderColor: "rgba(255,255,255,0.3)", color: "#7bd0ff" }
         // }
         // transition={{ duration: 0.22, ease: EASE }}
-        className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center border border-border/60 text-primary"
+        className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center border border-[#7bd0ff] text-primary"
       >
         {icon}
       </motion.span>

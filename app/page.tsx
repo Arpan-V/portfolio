@@ -1,24 +1,19 @@
-import Navbar from "./Navbar";
 import Hero from "./Hero";
 import About from "./About2";
 import Projects from "./Projects";
-import Stats from "./Stats";
-import Contact from "./Contact";
-import Footer from "./Footer";
+import Contact from "./Contact2";
+import Skills from "./Skills";
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      
+    <>  
       <main>
         <Hero />
         <About />
         <Projects />
-        <Stats />
+        <Skills />
         <Contact />
       </main>
-      <Footer />
     </>
   );
 }

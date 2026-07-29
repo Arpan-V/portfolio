@@ -96,13 +96,16 @@ export default function Navbar() {
       className="fixed top-0 z-50 h-[70px] w-full border-b border-white/10 bg-[#050b18]/66 backdrop-blur-md"
     >
       <div className="flex justify-between items-center px-6 pt-6 pb-3 md:py-4">
-        <div className="flex items-center gap-3 cursor-pointer">
-          <ChessKing className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
-          <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
-            ΛRPΛN
-          </span>
-         
-        </div>
+        <a
+  href="#home"
+  className="flex items-center gap-3 cursor-pointer"
+  aria-label="Go to home"
+>
+  <ChessKing className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
+  <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
+    ΛRPΛN
+  </span>
+</a>
 
         {/* Desktop Navigation */}
         <nav aria-label="Primary" className="hidden md:flex gap-8 items-center">
