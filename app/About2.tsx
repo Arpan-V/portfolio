@@ -191,7 +191,7 @@ export default function About() {
             variants={cardVariants}
           >
             <motion.div
-              className="border border-border/60 p-8 sm:p-10 "
+              className="border-2 border-border/77 p-8 sm:p-10 "
               // whileHover={
               //   reduce
               //     ? undefined

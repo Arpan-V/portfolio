@@ -5,16 +5,16 @@ export default function Footer() {
     <footer className="w-full border-t border-[#45464d] bg-[#101415]">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-4 px-6 py-8 sm:grid-cols-[1fr_auto] sm:px-8 lg:px-12">
         <div className="text-center sm:text-left">
-          <p className="font-display text-sm font-medium text-silver/99">
+          <p className="font-display text-sm font-medium">
             ARPAN
           </p>
-          <p className="mt-1 font-body text-xs text-silver/50">
+          <p className="mt-1 font-body text-xs text-silver/77">
             Software Engineer building scalable systems.
           </p>
         </div>
 
         <div className="flex items-center justify-center gap-6 sm:justify-end">
-          <p className="font-body text-xs text-silver/50">
+          <p className="font-body text-xs text-silver/77">
             © {new Date().getFullYear()} Arpan. All rights reserved.
           </p>
           <a
