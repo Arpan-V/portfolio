@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import "./globals.css";
 
 
@@ -7,6 +6,8 @@ import {
   Space_Grotesk,
   JetBrains_Mono,
 } from "next/font/google";
+
+import type { Metadata, Viewport } from "next";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer2";
@@ -36,6 +37,9 @@ export const metadata: Metadata = {
   },
   description:
     "Software Engineer building scalable, reliable systems with a focus on architectural integrity.",
+};
+
+export const viewport: Viewport = {
   themeColor: "#050b18",
 };
 
