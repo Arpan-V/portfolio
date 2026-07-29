@@ -132,10 +132,10 @@ export default function Projects() {
     >
       <GridBackground />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-32">
         {/* Section label — line grows, then label fades up (matches About). */}
         <motion.h2
-          className="font-['Manrope'] text-sm sm:text-base font-bold tracking-[0.25em] sm:tracking-[0.3em] text-[#7bd0ff] uppercase mb-10 sm:mb-12 flex items-center gap-3 sm:gap-4"
+          className="font-['Manrope'] text-sm sm:text-lg font-bold tracking-[0.25em] sm:tracking-[0.3em] text-[#7bd0ff] uppercase mb-10 sm:mb-12 flex items-center gap-3 sm:gap-4"
           variants={fadeUpVariants}
         >
           <motion.span

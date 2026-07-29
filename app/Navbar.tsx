@@ -114,16 +114,34 @@ export default function Navbar() {
         </nav>
 
         {/* Mobile Menu Button */}
-        <button
-          type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          onClick={() => setOpen((v) => !v)}
-          className="md:hidden text-[#bec6e0]"
-        >
-          {open ? <X /> : <Menu />}
-        </button>
+        {/* Below is the old button, replace below div with this button section
+        {/* Mobile Menu Button 
+<button
+  type="button"
+  aria-label={open ? "Close menu" : "Open menu"}
+  aria-expanded={open}
+  aria-controls="mobile-nav"
+  onClick={() => setOpen((v) => !v)}
+  className="md:hidden text-[#bec6e0]"
+>
+  {open ? <X /> : <Menu />}
+</button>
+        */}
+        
+        <div
+  className="md:hidden flex-1 flex justify-end cursor-pointer"
+  onClick={() => setOpen((v) => !v)}
+>
+  <button
+    type="button"
+    aria-label={open ? "Close menu" : "Open menu"}
+    aria-expanded={open}
+    aria-controls="mobile-nav"
+    className="text-[#bec6e0] pointer-events-none"
+  >
+    {open ? <X /> : <Menu />}
+  </button>
+</div>
       </div>
 
       {/* Mobile Backdrop (behind menu, does not affect desktop) */}
