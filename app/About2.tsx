@@ -191,12 +191,12 @@ export default function About() {
             variants={cardVariants}
           >
             <motion.div
-              className="border border-border/60 p-8 sm:p-10 transition-shadow duration-300"
-              whileHover={
-                reduce
-                  ? undefined
-                  : { boxShadow: "0 20px 60px -30px rgba(123,208,255,0.25)" }
-              }
+              className="border border-border/60 p-8 sm:p-10 "
+              // whileHover={
+              //   reduce
+              //     ? undefined
+              //     : { boxShadow: "0 20px 60px -30px rgba(123,208,255,0.25)" }
+              // }
             >
               {/* Stats — stagger, each number slides up + fades */}
               <motion.dl
