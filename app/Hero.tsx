@@ -7,15 +7,15 @@ export default function Hero() {
     <section
       
   id="home"
-  className="scroll-mt-20 relative flex w-full items-center overflow-hidden hero-gradient mt-10 md:mt-20 min-h-[calc(100vh-70px)] lg:min-h-[calc(100dvh-70px)]"
+  className="scroll-mt-20 relative flex w-full items-center overflow-hidden hero-gradient min-h-[calc(100vh-70px)] lg:min-h-[calc(100dvh-70px)]"
 >
       <DotGrid className="z-0 opacity-66" />
 
-      <div className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 md:px-10 md:py-24 lg:px-12 lg:py-16">
+      <div className="mx-auto w-full max-w-7xl px-6 py-12 sm:px-8 sm:py-16 md:px-10 md:py-20 lg:px-12 lg:py-16">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           
           {/* Left Content */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 lg:pt-[60px]">
             <p className="pb-5 pl-2 font-display font-medium text-[#7bd0ff] sm:pb-6 md:pb-7 lg:pb-8">
               Hi, my name is
             </p>
@@ -26,15 +26,15 @@ export default function Hero() {
               <span className="relative z-10">VERMA</span>
             </h1>
 
-            <p className="relative z-10 mt-6 max-w-2xl font-body text-base font-light leading-relaxed text-silver/90 sm:mt-7 sm:text-lg md:mt-8 md:text-xl lg:mt-9 lg:text-2xl">
-              I build scalable, reliable systems with a focus on{" "}
+            <p className="relative z-10 mt-8 sm:mt-9 md:mt-9 lg:mt-10 max-w-2xl font-body text-base font-light leading-relaxed text-silver/90 sm:text-lg md:text-xl lg:text-2xl">
+              a <span className="text-accent">fullstack developer</span>. I build scalable and reliable systems with a focus on{" "}
               <span className="font-medium text-accent">
                 architectural integrity
               </span>
               .
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-3 sm:mt-8 sm:gap-4 lg:mt-10">
+            <div className="mt-10 sm:mt-10 md:mt-10 lg:mt-11 flex flex-wrap gap-3 sm:gap-4">
               <a href="#projects">
                 <button className="relative z-10 inline-flex cursor-pointer items-center gap-2 bg-silver px-5 py-3 font-code text-xs font-bold uppercase tracking-widest text-surface transition-colors hover:bg-accent hover:text-accent-foreground sm:px-7 sm:py-3.5 sm:text-sm">
                   <Code className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -56,7 +56,7 @@ export default function Hero() {
           </div>
 
           {/* Right Card */}
-          <div className="hidden lg:col-span-5 lg:block">
+          <div className="hidden lg:col-span-5 lg:block lg:pt-20">
             <ProjectCarousel />
           </div>
         </div>

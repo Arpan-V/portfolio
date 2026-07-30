@@ -134,7 +134,7 @@ export default function Navbar() {
           ))}
           <a
             href={RESUME_URL}
-            className="font-display font-semibold text-sm md:text-base uppercase tracking-widest rounded-md border-2 border-[#7bd0ff]/30 bg-[#7bd0ff]/10 px-4 py-2 text-[#7bd0ff] transition-colors duration-300 hover:bg-[#7bd0ff]/20 hover:border-[#7bd0ff]/50"
+            className="font-display font-semibold text-sm md:text-base uppercase tracking-widest rounded-md border-2 border-[#d9f6ff]/79 px-4 py-2 text-[#d9f6ff]/79 transition-colors duration-300 hover:text-[#7bd0ff]/77 hover:border-[#7bd0ff]/77"
           >
             Resume
           </a>
@@ -190,7 +190,7 @@ export default function Navbar() {
         <a
           href={RESUME_URL}
           onClick={() => setOpen(false)}
-          className="mt-3 w-42 flex items-center justify-center gap-2 rounded-md border border-[#7bd0ff]/30 bg-[#7bd0ff]/10 px-4 py-3 font-display font-semibold text-sm uppercase tracking-widest text-[#7bd0ff] transition-colors duration-300 hover:bg-[#7bd0ff]/20 hover:border-[#7bd0ff]/50"
+          className="mt-3 w-42 flex items-center justify-center gap-2 rounded-md border-2 border-[#7bd0ff]/51  px-4 py-3 font-display font-semibold text-sm uppercase tracking-widest text-[#7bd0ff]"
         >
           <FileText className="h-4 w-4" />
           Resume
