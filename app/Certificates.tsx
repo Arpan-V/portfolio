@@ -6,17 +6,37 @@ import InfiniteCarousel from "./InfiniteCarousel";
 import Lightbox, { type LightboxImage } from "./Lightbox";
 import Image from "next/image";
 import type { StaticImageData } from "next/image";
+import { Trophy } from "lucide-react";
 
 
-import cert1 from "../assets/cert-1.jpg";
-import cert2 from "../assets/cert-2.jpg";
-import cert3 from "../assets/cert-3.jpg";
-import cert4 from "../assets/cert-4.jpg";
-import cert5 from "../assets/cert-5.jpg";
+import cert1 from "./cert-1.png";
+import cert2 from "./cert-2.png";
+import cert3 from "./cert-3.png";
+import cert4 from "./cert-4.png";
+import cert5 from "./cert-5.png";
+import cert6 from "./cert-6.png";
+import cert7 from "./cert-7.png";
+import cert8 from "./cert-8.png";
+import cert9 from "./cert-9.png";
+
+import { motion, type Variants } from "framer-motion";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const headingContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+};
+
+const headingWord: Variants = {
+  hidden: { opacity: 0, y: "0.45em", filter: "blur(8px)" },
+  show: { opacity: 1, y: "0em", filter: "blur(0px)", transition: { duration: 0.85, ease: EASE } },
+};
+
 
 type Certificate = {
   id: number;
-  src: string;
+  src: StaticImageData;
   alt: string;
 };
 
@@ -38,6 +58,10 @@ const certificates: Certificate[] = [
   },
   { id: 4, src: cert4, alt: "Spring Professional Development" },
   { id: 5, src: cert5, alt: "Microsoft Certified: Azure Fundamentals" },
+  { id: 6, src: cert6, alt: "Microsoft Certified: Azure Fundamentals" },
+  { id: 7, src: cert7, alt: "Microsoft Certified: Azure Fundamentals" },
+  { id: 8, src: cert8, alt: "Microsoft Certified: Azure Fundamentals" },
+  { id: 9, src: cert9, alt: "Microsoft Certified: Azure Fundamentals" },
 ];
 
 const galleryImages: LightboxImage[] = certificates.map(({ src, alt }) => ({
@@ -88,14 +112,14 @@ function CertificateCard({
       aria-label={`Open ${item.alt}`}
       className="block cursor-pointer overflow-hidden rounded-2xl border border-[#45464d] bg-[#0f172a]"
     >
-      <img
+      <Image
         src={item.src}
         alt={item.alt}
         loading="lazy"
         width={1024}
         height={736}
         draggable={false}
-        className="block h-auto w-full object-cover"
+        className="block h-63 w-full object-cover"
       />
     </button>
   );
@@ -107,20 +131,45 @@ export default function Certificates() {
 
   return (
     <section
-      id="certificates"
+      id="certs"
       className="w-full bg-[#101415] py-20 sm:py-24 lg:py-32"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <div className="flex items-center gap-4">
-          <span className="font-display text-xs uppercase tracking-[0.3em] text-[#7bd0ff]">
-            Credentials
-          </span>
           <span className="h-px flex-1 bg-[#45464d]/70" />
         </div>
 
-        <h2 className="mt-6 max-w-2xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-          Certifications &amp; Training
-        </h2>
+       <motion.h2
+  initial="hidden"
+  whileInView="show"
+  viewport={{ once: true, amount: 0.6 }}
+  variants={headingContainer}
+  className="mt-6 max-w-2xl font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-6xl"
+>
+  <motion.span
+    variants={headingWord}
+    className="mr-[0.28em] inline-block text-sky-dim"
+  >
+    Certificates
+  </motion.span>
+  <motion.span
+    variants={headingWord}
+    className="mr-[0.28em] inline-block text-foreground"
+  >
+    &amp;
+  </motion.span>
+  <motion.span
+    variants={headingWord}
+    className="mr-[0.28em] inline-block text-foreground"
+  >
+    Achievements
+  </motion.span>
+  <motion.span variants={headingWord} className="inline-block">
+    <Trophy className="inline-block h-[0.8em] w-[0.8em] align-[-0.08em] text-[#EFBF04]" />
+  </motion.span>
+</motion.h2>
+
+        
 
         <p className="mt-4 max-w-xl font-body text-base leading-relaxed text-silver/80 sm:text-lg">
           Continuous learning across the JVM ecosystem, cloud platforms and
@@ -134,7 +183,7 @@ export default function Certificates() {
             key={`${width}-${gap}`}
             items={certificates}
             gap={gap}
-            speed={45}
+            speed={66}
             renderItem={(item) => (
               <CertificateCard
                 item={item}

@@ -2,9 +2,12 @@
 
 import { useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import type { StaticImageData } from "next/image";
+import Image from "next/image";
+
 
 export type LightboxImage = {
-  src: string;
+  src: StaticImageData;
   alt: string;
 };
 
@@ -120,7 +123,7 @@ export default function Lightbox({
         className="flex max-h-full w-full max-w-5xl flex-col items-center gap-4"
         onClick={(event) => event.stopPropagation()}
       >
-        <img
+        <Image
           src={current.src}
           alt={current.alt}
           className="max-h-[75vh] w-auto max-w-full rounded-xl border border-[#45464d] object-contain"

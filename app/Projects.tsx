@@ -16,7 +16,7 @@ const staggerContainer: Variants = {
   show: {
     transition: { staggerChildren: 0.11, delayChildren: 0.05 },
   },
-};
+}; 
 
 // Slightly tighter stagger for tech chips inside a card.
 const chipContainer: Variants = {
@@ -195,11 +195,14 @@ export default function Projects() {
                 width={800}
                 height={192}
                 loading="lazy"
-                className="w-full h-40 sm:h-44 lg:h-48 object-cover rounded
-                           opacity-90 md:grayscale
-                           transition-all duration-500 ease-out
-                           group-hover:opacity-100 group-hover:grayscale-0
-                           group-hover:scale-[1.015]"
+                className="
+  w-full h-40 sm:h-44 lg:h-48
+  object-cover rounded
+  opacity-80
+  transition-all duration-500 ease-out
+  group-hover:opacity-100
+  group-hover:scale-[1.015]
+"
               />
             </motion.div>
           </Card>
@@ -313,9 +316,9 @@ export default function Projects() {
                 height={160}
                 loading="lazy"
                 className="w-full h-36 object-cover rounded
-                           opacity-90 md:grayscale
+                           opacity-90
                            transition-all duration-500 ease-out
-                           group-hover:opacity-90 group-hover:grayscale-0
+                           group-hover:opacity-90
                            group-hover:scale-[1.015]"
               />
             </motion.div>
