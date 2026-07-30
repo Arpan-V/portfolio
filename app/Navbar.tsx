@@ -1,56 +1,107 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   ChessKing,
   Menu,
   X,
-  House,
   User,
   Send,
   Coffee,
   Terminal,
   FileText,
-  Trophy
+  Trophy,
+  House,
 } from "lucide-react";
+
+import { useIntersectionObserver } from "./UseIntersectionObserver";
 
 const links = [
   { href: "#home", label: "Home", icon: House },
   { href: "#about", label: "About", icon: User },
   { href: "#projects", label: "Projects", icon: Terminal },
   { href: "#skills", label: "Skills", icon: Coffee },
+  { href: "#certs", label: "Certs", icon: Trophy },
   { href: "#contact", label: "Contact", icon: Send },
-  {href: "#certs", label: "Certs", icon: Trophy }
+  
 ];
 
 const RESUME_URL = "#resume";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("#home");
-
   const headerRef = useRef<HTMLElement>(null);
 
-  // Active section tracking (unchanged)
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll<HTMLElement>("section[id]");
-      const navbarHeight = headerRef.current?.offsetHeight ?? 20;
-      let currentSection = "#home";
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= navbarHeight + 1) {
-          currentSection = `#${section.id}`;
-        }
-      });
-      setActive(currentSection);
-    };
+  /* ---------------- Active section: ONE IntersectionObserver ------------- */
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+  const [active, setActive] = useState("#home");
+  const [headerH, setHeaderH] = useState(70);
+
+  // One stable ref per known section (fixed count -> Rules of Hooks safe).
+  const sectionRefs = useMemo(
+    () => links.map(() => ({ current: null as HTMLElement | null })),
+    []
+  );
+  const [mounted, setMounted] = useState(0);
+
+  // Sections are rendered by the page, not by the navbar, so resolve them by id.
+  useLayoutEffect(() => {
+    let changed = false;
+    links.forEach((l, i) => {
+      const el = document.getElementById(l.href.slice(1));
+      if (sectionRefs[i].current !== el) {
+        sectionRefs[i].current = el;
+        changed = true;
+      }
+    });
+    if (changed) setMounted((n) => n + 1);
+  }, [sectionRefs]);
+
+  // Measure the header once, and again only when it actually resizes.
+  useLayoutEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const measure = () => setHeaderH(el.getBoundingClientRect().height || 70);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
+
+  // New array identity whenever the resolved nodes change -> observer re-subscribes.
+  const observedRefs = useMemo(
+    () => sectionRefs.slice(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sectionRefs, mounted]
+  );
+
+  const visibleRef = useRef<Record<string, boolean>>({});
+
+  useIntersectionObserver(
+    observedRefs,
+    (entry) => {
+      visibleRef.current[`#${entry.target.id}`] = entry.isIntersecting;
+      // Topmost section currently inside the detection band wins.
+      const next = links.find((l) => visibleRef.current[l.href]);
+      if (next) setActive((prev) => (prev === next.href ? prev : next.href));
+    },
+    {
+      // Band starts just under the header and ends ~40% down the viewport.
+      rootMargin: `-${headerH}px 0px -60% 0px`,
+      threshold: 0,
+    }
+  );
+
+  /* ----------------------------- Menu behaviour -------------------------- */
+
+  const close = useCallback(() => setOpen(false), []);
 
   // Escape to close
   useEffect(() => {
@@ -130,7 +181,12 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <nav aria-label="Primary" className="hidden md:flex gap-8 items-center">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className={linkClass(l.href)}>
+            <a
+              key={l.href}
+              href={l.href}
+              aria-current={active === l.href ? "page" : undefined}
+              className={linkClass(l.href)}
+            >
               {l.label}
             </a>
           ))}
@@ -144,21 +200,21 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-  type="button"
-  aria-label={open ? "Close menu" : "Open menu"}
-  aria-expanded={open}
-  aria-controls="mobile-nav"
-  onClick={() => setOpen((v) => !v)}
-  className="md:hidden flex-1 flex justify-end items-center text-[#bec6e0] cursor-pointer"
->
-  {open ? <X /> : <Menu />}
-</button>
+          type="button"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          onClick={() => setOpen((v) => !v)}
+          className="md:hidden flex-1 flex justify-end items-center text-[#bec6e0] cursor-pointer"
+        >
+          {open ? <X /> : <Menu />}
+        </button>
       </div>
 
       {/* Mobile Backdrop (behind menu, does not affect desktop) */}
       <div
         aria-hidden="true"
-        onClick={() => setOpen(false)}
+        onClick={close}
         className={`md:hidden fixed left-0 right-0 top-[70px] bottom-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-out ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
@@ -181,7 +237,8 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              onClick={() => setOpen(false)}
+              onClick={close}
+              aria-current={active === l.href ? "page" : undefined}
               className={`${linkClass(l.href)} group py-4 border-b border-[#bec6e0]/24 last:border-b-0`}
             >
               <Icon className={`h-5 w-5 ${iconClass(l.href)}`} />
@@ -189,9 +246,10 @@ export default function Navbar() {
             </a>
           );
         })}
+
         <a
           href={RESUME_URL}
-          onClick={() => setOpen(false)}
+          onClick={close}
           className="mt-3 w-42 flex items-center justify-center gap-2 rounded-md border-2 border-[#7bd0ff]/51  px-4 py-3 font-display font-semibold text-sm uppercase tracking-widest text-[#7bd0ff]"
         >
           <FileText className="h-4 w-4" />
