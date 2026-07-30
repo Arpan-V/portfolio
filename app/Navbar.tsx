@@ -180,7 +180,7 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`${linkClass(l.href)} group py-4 border-b border-[#bec6e0]/10 last:border-b-0`}
+              className={`${linkClass(l.href)} group py-4 border-b border-[#bec6e0]/24 last:border-b-0`}
             >
               <Icon className={`h-5 w-5 ${iconClass(l.href)}`} />
               <span>{l.label}</span>

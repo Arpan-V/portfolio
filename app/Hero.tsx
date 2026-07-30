@@ -11,7 +11,7 @@ export default function Hero() {
 >
       <DotGrid className="z-0 opacity-66" />
 
-      <div className="mx-auto w-full max-w-7xl px-6 py-12 sm:px-8 sm:py-16 md:px-10 md:py-20 lg:px-12 lg:py-16">
+      <div className="mx-auto w-full max-w-7xl px-6 py-12 sm:px-8 sm:py-16 md:px-10 md:py-20 lg:px-12 lg:py-36">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           
           {/* Left Content */}
@@ -46,8 +46,9 @@ export default function Hero() {
                 href="https://github.com/arpan-v"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="w-full sm:w-auto"
               >
-                <button className="relative z-10 inline-flex cursor-pointer items-center gap-2 hero-gradient border border-border/60 px-5 py-3 font-display text-xs font-bold uppercase tracking-widest text-silver transition-colors hover:border-accent hover:text-accent sm:px-7 sm:py-3.5 sm:text-sm">
+                <button className="relative z-10 inline-flex cursor-pointer items-center gap-2 hero-gradient border border-accent lg:border-border/60 px-5 py-3 font-display text-xs font-bold uppercase tracking-widest text-accent lg:text-silver transition-colors hover:border-accent hover:text-accent sm:px-7 sm:py-3.5 sm:text-sm">
                   <FolderGit2 className="h-4 w-4 sm:h-5 sm:w-5" />
                   GitHub
                 </button>
