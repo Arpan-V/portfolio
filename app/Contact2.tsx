@@ -185,7 +185,7 @@ export default function Contact() {
                   name="message"
                   rows={5}
                   placeholder="Tell me about your project..."
-                  className="resize-y rounded border border-[#45464d] bg-[#1d2022] p-3 font-body text-sm text-foreground placeholder:text-silver/40 outline-none focus:border-[#7bd0ff] focus:ring-1 focus:ring-[#7bd0ff]/30"
+                  className="resize-none rounded border border-[#45464d] bg-[#1d2022] p-3 font-body text-sm text-foreground placeholder:text-silver/40 outline-none focus:border-[#7bd0ff] focus:ring-1 focus:ring-[#7bd0ff]/30"
                 />
               </div>
 
