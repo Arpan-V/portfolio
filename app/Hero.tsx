@@ -26,7 +26,7 @@ export default function Hero() {
               <span className="relative z-10">VERMA</span>
             </h1>
 
-            <p className="relative z-10 mt-8 sm:mt-9 md:mt-9 lg:mt-10 max-w-2xl font-body text-base font-light leading-relaxed text-silver/90 sm:text-lg md:text-xl lg:text-2xl">
+            <p className="relative z-10 mt-8 sm:mt-9 md:mt-9 lg:mt-10 max-w-2xl font-body text-base font-medium leading-relaxed text-silver/90 sm:text-lg md:text-xl lg:text-2xl">
               a <span className="text-accent">fullstack developer</span>. I build scalable and reliable systems with a focus on{" "}
               <span className="font-medium text-accent">
                 architectural integrity

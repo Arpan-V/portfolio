@@ -21,8 +21,8 @@ export default function DotGrid({
   gap = 30,
   dotSize = 3,
   glowRadius = 120,
-  restColor = "oklch(0.60 0.04 260)",
-  activeColor = "oklch(0.98 0.005 260)",
+  restColor = "oklch(0.70 0.06 260)",
+  activeColor = "oklch(0.98 0.005 260)", 
 }: DotGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
