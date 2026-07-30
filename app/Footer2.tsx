@@ -20,7 +20,7 @@ export default function Footer() {
           <a
             href="#home"
             aria-label="Back to top"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded border border-[#45464d] bg-[#131b2e] text-silver/70 transition-colors hover:border-[#7bd0ff] hover:text-[#7bd0ff]"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded border border-[#7bd0ff] lg:border-[#45464d] bg-[#131b2e] text-[#7bd0ff] lg:text-silver/70 transition-colors hover:border-[#7bd0ff] hover:text-[#7bd0ff]"
           >
             <ChevronUp className="h-4 w-4" />
           </a>

@@ -25,7 +25,7 @@ export default function Contact() {
             initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, ease: EASE }}
+            transition={{ duration: 1, ease: EASE }}
             className="mb-4 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
           >
             Let&apos;s build something <span className="text-sky-dim">exceptional.</span> 
