@@ -32,8 +32,7 @@ const SPEED_PX_S = 60;
 
 function ShowcaseCard({ item }: { item: Showcase }) {
   return (
-    <a
-      href="#projects"
+    <div
       style={{ width: CARD_W, height: CARD_H }}
       className="relative block shrink-0 cursor-pointer overflow-hidden border-1 rounded-[9px] bg-card shadow-[0_24px_50px_-28px_rgba(0,0,0,0.95)]"
     >
@@ -62,7 +61,7 @@ function ShowcaseCard({ item }: { item: Showcase }) {
           </span>
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -136,13 +135,16 @@ export default function ProjectCarousel() {
       </div>
 
       {/* Outer transparent box (kept exactly as-is) */}
-      <div className="marquee-mask-x relative mt-4 overflow-hidden rounded-3xl border border-border/60 bg-surface/40 p-4">
-        <div ref={trackRef} className="flex gap-6 will-change-transform">
-          {loop.map((item, i) => (
-            <ShowcaseCard key={`${item.id}-${i}`} item={item} />
-          ))}
-        </div>
-      </div>
+      <a
+  href="#projects"
+  className="marquee-mask-x relative mt-4 block overflow-hidden rounded-3xl border border-border/60 bg-surface/40 p-4"
+>
+  <div ref={trackRef} className="flex gap-6 will-change-transform">
+    {loop.map((item, i) => (
+      <ShowcaseCard key={`${item.id}-${i}`} item={item} />
+    ))}
+  </div>
+</a>
     </div>
   );
 }

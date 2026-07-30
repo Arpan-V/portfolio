@@ -12,6 +12,7 @@ import {
   Coffee,
   Terminal,
   FileText,
+  Trophy
 } from "lucide-react";
 
 const links = [
@@ -20,6 +21,7 @@ const links = [
   { href: "#projects", label: "Projects", icon: Terminal },
   { href: "#skills", label: "Skills", icon: Coffee },
   { href: "#contact", label: "Contact", icon: Send },
+  {href: "#certs", label: "Certs", icon: Trophy }
 ];
 
 const RESUME_URL = "#resume";

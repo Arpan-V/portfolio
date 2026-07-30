@@ -1,5 +1,5 @@
 import { Code, FolderGit2 } from "lucide-react";
-import ProjectCarousel from "./ProjectCarousel2";
+import ProjectCarousel from "./ProjectCarousel3";
 import DotGrid from "./DotGrid";
 
 export default function Hero() {
