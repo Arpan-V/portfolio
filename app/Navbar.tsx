@@ -141,20 +141,16 @@ export default function Navbar() {
         </nav>
 
         {/* Mobile Menu Button */}
-        <div
-  className="md:hidden flex-1 flex justify-end items-center cursor-pointer"
+        <button
+  type="button"
+  aria-label={open ? "Close menu" : "Open menu"}
+  aria-expanded={open}
+  aria-controls="mobile-nav"
   onClick={() => setOpen((v) => !v)}
+  className="md:hidden flex-1 flex justify-end items-center text-[#bec6e0] cursor-pointer"
 >
-  <button
-    type="button"
-    aria-label={open ? "Close menu" : "Open menu"}
-    aria-expanded={open}
-    aria-controls="mobile-nav"
-    className="text-[#bec6e0] pointer-events-none"
-  >
-    {open ? <X /> : <Menu />}
-  </button>
-</div>
+  {open ? <X /> : <Menu />}
+</button>
       </div>
 
       {/* Mobile Backdrop (behind menu, does not affect desktop) */}
