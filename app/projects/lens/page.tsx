@@ -240,6 +240,34 @@ export default function LensPage() {
             H1 count, images missing alt text and approximate word count. Below is
             the core HTML parsing component, written live.
           </p>
+          <a
+            href="https://github.com/Arpan-V/link-parser-backend"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mt-6 inline-flex items-center gap-2 rounded-lg border border-white/12 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#c3cbcd] shadow-[0_20px_60px_-30px_rgba(0,0,0,0.9)] backdrop-blur-md transition-colors hover:border-[#7bd0ff]/45 hover:bg-[#7bd0ff]/10 hover:text-[#7bd0ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7bd0ff]/60 sm:text-xs"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="currentColor"
+              aria-hidden
+            >
+              <path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.07.78 2.16v3.2c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z" />
+            </svg>
+            View on GitHub
+            <svg
+              viewBox="0 0 24 24"
+              className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M7 17 17 7M8 7h9v9" />
+            </svg>
+          </a>
         </header>
 
         {/* Transparent fixed-size code panel */}

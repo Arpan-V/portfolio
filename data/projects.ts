@@ -1,6 +1,6 @@
 import type { StaticImageData } from "next/image";
 
-import project1 from "@/public/images/projects/project-1.jpg";
+import project1 from "@/public/images/projects/project-12.jpg";
 import project2 from "@/public/images/projects/project-2.jpg";
 import project3 from "@/public/images/projects/project-3.jpg";
 import project4 from "@/public/images/projects/project-4.jpg";
@@ -27,7 +27,7 @@ export const projects: Project[] = [
     description:
       "Real-time processing engine for high-frequency trading data, utilizing Kafka and specialized Go routines for 2ms latency.",
     technologies: ["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"],
-    image: project3,
+    image: project1,
     imageAlt: "NEURAL_STREAM V4 project preview",
     span: 2,
     
