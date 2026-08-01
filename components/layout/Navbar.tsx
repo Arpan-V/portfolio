@@ -19,7 +19,9 @@ import {
   FileText,
   Trophy,
   House,
+  MoveLeft,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import { useIntersectionObserver } from "@/lib/UseIntersectionObserver";
 
@@ -38,6 +40,9 @@ const RESUME_URL = "#resume";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
 
   /* ---------------- Active section: ONE IntersectionObserver ------------- */
 
@@ -160,6 +165,37 @@ export default function Navbar() {
     active === href
       ? "text-[#7bd0ff]"
       : "text-[#bec6e0]/60 group-hover:text-[#7bd0ff] transition-colors duration-333";
+
+  /* --------- Non-home pages: only a "go back to projects" text link ------- */
+  if (!isHome) {
+    return (
+      <header
+        ref={headerRef}
+        className="fixed top-0 z-50 h-[70px] w-full border-b border-white/10 bg-[#050b18]/66 backdrop-blur-md"
+      >
+        <div className="flex h-full items-center justify-between gap-4 px-6">
+          <a
+            href="/#projects"
+            className="flex items-center gap-3 cursor-pointer"
+            aria-label="Arpan Verma — Projects"
+          >
+            <ChessKing className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
+            <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
+              ΛRPΛN
+            </span>
+          </a>
+
+          <a
+            href="/#projects"
+            className="group flex items-center gap-2 sm:gap-3 font-display font-semibold text-xs sm:text-sm md:text-base uppercase tracking-widest text-[#7bd0ff] transition-opacity duration-300 hover:opacity-80"
+          >
+            <MoveLeft className="h-5 w-7 sm:h-6 sm:w-9 shrink-0 transition-transform duration-300 group-hover:-translate-x-1" />
+            <span>Go back to projects</span>
+          </a>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header
