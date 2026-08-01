@@ -1,104 +1,158 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 
 type AuditResult = {
-  url?: string;
-  httpStatus?: number;
-  responseTime?: number;
-  pageTitle?: string;
-  metaDescription?: string;
-  metaDescriptionLength?: number;
-  h1Count?: number;
-  imagesMissingAlt?: string[];
-  totalImages?: number;
-  totalLinks?: number;
-  internalLinks?: number;
-  externalLinks?: number;
-  brokenLinks?: string[];
+  httpStatus: number;
+  responseTime: number;
+  pageTitle: string;
+  metaDescription: string;
+  h1Count: number;
+  imagesMissingAlt: number;
+  approximateWordCount: number;
 };
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+/**
+ * Validates and normalizes a user-entered link.
+ * Rejects: empty, whitespace-only, missing/invalid host, non-http(s)
+ * protocols, hosts without a dot (e.g. "localhost" typos like "https://foo"),
+ * and anything the URL parser cannot understand.
+ */
+function normalizeUrl(raw: string): { url: string } | { error: string } {
+  const input = raw.trim();
+  if (!input) return { error: "Enter a URL to audit." };
+  if (/\s/.test(input)) return { error: "URL cannot contain spaces." };
+
+  // Allow bare domains by defaulting to https://
+  const withProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(input)
+    ? input
+    : `https://${input}`;
+
+  let parsed: URL;
+  try {
+    parsed = new URL(withProtocol);
+  } catch {
+    return { error: "That doesn't look like a valid URL." };
+  }
+
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    return { error: "Only http:// and https:// URLs are supported." };
+  }
+
+  const host = parsed.hostname;
+  if (!host) return { error: "URL is missing a domain." };
+
+  // Must be a real domain: label.tld, with a valid TLD of 2+ letters.
+  const isDomain = /^(?!-)[a-z\d-]{1,63}(?<!-)(\.(?!-)[a-z\d-]{1,63}(?<!-))*\.[a-z]{2,}$/i.test(host);
+  const isIPv4 = /^(\d{1,3}\.){3}\d{1,3}$/.test(host);
+  if (!isDomain && !isIPv4) {
+    return { error: "Enter a complete domain, e.g. https://example.com" };
+  }
+  if (isIPv4 && host.split(".").some((o) => Number(o) > 255)) {
+    return { error: "That IP address isn't valid." };
+  }
+
+  return { url: parsed.toString() };
+}
 
 export default function LensPage() {
   const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AuditResult | null>(null);
 
-  async function handleSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    const trimmed = url.trim();
-    if (!trimmed) {
-      setError("Please enter a URL.");
+    setError(null);
+
+    const checked = normalizeUrl(url);
+    if ("error" in checked) {
+      setError(checked.error);
       return;
     }
+    if (!BACKEND_URL) {
+      setError("Backend URL is not configured. Set NEXT_PUBLIC_BACKEND_URL.");
+      return;
+    }
+
     setLoading(true);
-    setError(null);
     setResult(null);
     try {
-      const res = await fetch(`${BACKEND_URL}/api/audit`, {
+      const res = await fetch(`${BACKEND_URL.replace(/\/$/, "")}/api/audit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: trimmed }),
+        body: JSON.stringify({ url: checked.url }),
       });
-      if (!res.ok) throw new Error(`Request failed (${res.status})`);
-      const data = (await res.json()) as AuditResult;
-      setResult(data);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data?.message || `Request failed (${res.status})`);
+        return;
+      }
+      setResult(data as AuditResult);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Something went wrong. Try again."
-      );
+      setError(err instanceof Error ? err.message : "Network error");
     } finally {
       setLoading(false);
     }
   }
 
-  return (
-    <main className="min-h-screen bg-[#101415] px-5 py-16 text-[#e6e9ea] sm:px-8 lg:px-12 lg:py-24">
-      <div className="mx-auto w-full max-w-3xl">
-        {/* Header */}
-        <p className="text-xs font-medium uppercase tracking-[0.22em] text-[#7bd0ff]">
-          Project
-        </p>
-        <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-          Lens <span className="text-[#7bd0ff]">Link Parser</span>
-        </h1>
-        <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[#9aa3a6] sm:text-base">
-          Lens fetches any public web page and returns a structured audit of it —
-          response health, page metadata, heading structure, image alt coverage
-          and link breakdown. Paste a URL below and it runs the audit against the
-          backend service in real time.
-        </p>
+  const statusOk = result ? result.httpStatus >= 200 && result.httpStatus < 400 : false;
+  const metaLen = result?.metaDescription?.length ?? 0;
+  const metaOk = metaLen >= 50 && metaLen <= 160;
 
-        {/* Form */}
+  return (
+    <main className="min-h-screen bg-[#0b0e0f] px-5 py-16 text-[#e6e9ea] sm:px-8 lg:py-24">
+      <div className="mx-auto w-full max-w-4xl">
+        {/* Header */}
+        <header className="max-w-2xl">
+          <p className="text-xs uppercase tracking-[0.22em] text-[#7bd0ff]">Project — Lens</p>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Link Parser
+          </h1>
+          <p className="mt-4 text-sm leading-relaxed text-[#9aa3a6] sm:text-base">
+            Paste any URL and get an instant SEO snapshot — HTTP status, response time, page
+            title, meta description, heading count, images missing alt text, and approximate
+            word count.
+          </p>
+        </header>
+
+        {/* Input */}
         <form
-          onSubmit={handleSubmit}
-          className="mt-10 flex flex-col gap-3 sm:flex-row"
+          onSubmit={onSubmit}
+          noValidate
+          className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-stretch"
         >
-          <input
-            type="text"
-            inputMode="url"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://example.com"
-            maxLength={2048}
-            className="w-full flex-1 rounded-xl border border-white/10 bg-[#1d2022] px-4 py-3 text-sm text-[#e6e9ea] outline-none transition-colors placeholder:text-[#6b7477] focus:border-[#7bd0ff]/60 sm:text-base"
-          />
+          <div className="flex-1">
+            <input
+              type="text"
+              inputMode="url"
+              value={url}
+              onChange={(e) => {
+                setUrl(e.target.value);
+                if (error) setError(null);
+              }}
+              disabled={loading}
+              placeholder="https://example.com"
+              aria-invalid={!!error}
+              aria-describedby={error ? "url-error" : undefined}
+              className={`w-full rounded-lg border bg-[#1d2022] px-4 py-3 text-sm font-medium text-[#e6e9ea] outline-none transition-colors placeholder:text-[#6b7477] focus:border-[#7bd0ff] disabled:opacity-60 ${
+                error ? "border-[#ff6b6b]" : "border-white/10"
+              }`}
+            />
+          </div>
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#7bd0ff] px-6 py-3 text-sm font-semibold text-[#0b0e0f] transition-transform duration-100 hover:bg-[#9adcff] active:translate-y-[2px] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+            className="rounded-lg bg-[#7bd0ff] px-6 py-3 text-sm font-semibold text-[#0b0e0f] transition-transform active:translate-y-[2px] disabled:opacity-60"
           >
-            {loading && (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#0b0e0f]/30 border-t-[#0b0e0f]" />
-            )}
-            {loading ? "Analyzing" : "Analyze"}
+            {loading ? "Analyzing…" : "Audit"}
           </button>
         </form>
 
         {error && (
-          <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          <p id="url-error" className="mt-3 text-sm text-[#ff6b6b]">
             {error}
           </p>
         )}
@@ -106,102 +160,95 @@ export default function LensPage() {
         {/* Results */}
         {result && (
           <section className="mt-12 space-y-6">
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-              <Stat label="Status" value={result.httpStatus ?? "—"} />
-              <Stat
-                label="Response"
-                value={
-                  result.responseTime != null ? `${result.responseTime} ms` : "—"
-                }
-              />
-              <Stat label="H1 tags" value={result.h1Count ?? "—"} />
-              <Stat label="Images" value={result.totalImages ?? "—"} />
+            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10 lg:grid-cols-4">
+              <StatCell label="HTTP Status">
+                <span className={statusOk ? "text-[#7bd0ff]" : "text-[#ff6b6b]"}>
+                  {result.httpStatus}
+                </span>
+              </StatCell>
+              <StatCell label="Response Time">
+                {result.responseTime}
+                <span className="ml-1 text-sm text-[#6b7477]">ms</span>
+              </StatCell>
+              <StatCell label="Word Count">
+                {result.approximateWordCount.toLocaleString()}
+              </StatCell>
+              <StatCell label="H1 Count">{result.h1Count}</StatCell>
             </div>
 
-            <Panel title="Page metadata">
-              <Row label="URL" value={result.url ?? "—"} />
-              <Row label="Title" value={result.pageTitle || "Not found"} />
-              <Row
-                label="Meta description"
-                value={result.metaDescription || "Not found"}
-              />
-              <Row
-                label="Meta length"
-                value={
-                  result.metaDescriptionLength != null
-                    ? `${result.metaDescriptionLength} characters`
-                    : "—"
-                }
-              />
-            </Panel>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-white/10 bg-[#0f172a] p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs uppercase tracking-[0.14em] text-[#6b7477]">
+                    Missing Alt Text
+                  </span>
+                  <span
+                    className={`text-xs font-semibold ${
+                      result.imagesMissingAlt === 0 ? "text-[#7bd0ff]" : "text-[#f5b544]"
+                    }`}
+                  >
+                    {result.imagesMissingAlt === 0 ? "Clean" : "Warning"}
+                  </span>
+                </div>
+                <p className="mt-3 text-2xl font-semibold">
+                  {result.imagesMissingAlt}
+                  <span className="ml-1 text-sm text-[#6b7477]">images</span>
+                </p>
+              </div>
 
-            <div className="grid gap-6 lg:grid-cols-2">
-              <Panel title="Links">
-                <Row label="Total" value={result.totalLinks ?? "—"} />
-                <Row label="Internal" value={result.internalLinks ?? "—"} />
-                <Row label="External" value={result.externalLinks ?? "—"} />
-                <Row label="Broken" value={result.brokenLinks?.length ?? 0} />
-              </Panel>
+              <div className="rounded-xl border border-white/10 bg-[#0f172a] p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs uppercase tracking-[0.14em] text-[#6b7477]">
+                    Meta Length
+                  </span>
+                  <span
+                    className={`text-xs font-semibold ${
+                      metaOk ? "text-[#7bd0ff]" : "text-[#f5b544]"
+                    }`}
+                  >
+                    {metaOk ? "Optimal" : metaLen === 0 ? "Missing" : "Off-range"}
+                  </span>
+                </div>
+                <p className="mt-3 text-2xl font-semibold">
+                  {metaLen}
+                  <span className="ml-1 text-sm text-[#6b7477]">chars</span>
+                </p>
+              </div>
+            </div>
 
-              <Panel
-                title={`Images missing alt (${result.imagesMissingAlt?.length ?? 0})`}
-              >
-                {result.imagesMissingAlt?.length ? (
-                  <ul className="space-y-2">
-                    {result.imagesMissingAlt.map((src) => (
-                      <li
-                        key={src}
-                        className="truncate text-xs text-[#9aa3a6] sm:text-sm"
-                      >
-                        {src}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-sm text-[#9aa3a6]">
-                    Every image has an alt attribute.
-                  </p>
-                )}
-              </Panel>
+            <div className="space-y-4 rounded-xl border border-white/10 bg-[#0f172a] p-5">
+              <Row label="Page Title" value={result.pageTitle || "—"} />
+              <Row label="Meta Description" value={result.metaDescription || "—"} />
             </div>
           </section>
         )}
+
+        {/* Footer status pill */}
+        <div className="mt-12 inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#0f172a] px-4 py-2">
+          <span
+            className={`h-2 w-2 rounded-full ${
+              loading ? "bg-[#f5b544]" : result ? "bg-[#7bd0ff]" : "bg-[#6b7477]"
+            }`}
+          />
+          <span className="text-xs text-[#9aa3a6]">
+            {loading ? "Analyzing" : result ? "Analysis complete" : "System ready"}
+          </span>
+        </div>
       </div>
     </main>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string | number }) {
+function StatCell({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-[#0f172a] p-4">
-      <p className="text-[11px] uppercase tracking-[0.16em] text-[#6b7477]">
-        {label}
-      </p>
-      <p className="mt-2 text-xl font-semibold text-[#7bd0ff] sm:text-2xl">
-        {value}
-      </p>
+    <div className="bg-[#0f172a] p-5">
+      <p className="text-xs uppercase tracking-[0.14em] text-[#6b7477]">{label}</p>
+      <p className="mt-2 text-2xl font-semibold sm:text-3xl">{children}</p>
     </div>
   );
 }
 
-function Panel({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-[#0f172a] p-5 sm:p-6">
-      <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#e6e9ea]">
-        {title}
-      </h2>
-      <div className="mt-4 space-y-3">{children}</div>
-    </div>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string | number }) {
+function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1 border-b border-white/5 pb-3 last:border-0 last:pb-0 sm:flex-row sm:items-start sm:gap-4">
       <span className="w-40 shrink-0 text-xs uppercase tracking-[0.14em] text-[#6b7477]">
