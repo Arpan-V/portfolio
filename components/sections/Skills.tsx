@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import type { ComponentType, SVGProps } from "react";
 
 import {
   languages,

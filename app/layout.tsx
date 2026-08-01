@@ -32,11 +32,20 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Arpan Verma",
+    default: "Arpan Verma | Software Engineer",
     template: "%s | Arpan Verma",
   },
+
   description:
-    "Software Engineer building scalable, reliable systems with a focus on architectural integrity.",
+    "Arpan Verma is a Software Engineer focused on building scalable, reliable backend systems and modern web applications.",
+
+  openGraph: {
+    title: "Arpan Verma | Software Engineer",
+    description:
+      "Software Engineer focused on building scalable, reliable backend systems and modern web applications.",
+    type: "website",
+    locale: "en_US",
+  },
 };
 
 export const viewport: Viewport = {
