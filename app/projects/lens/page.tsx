@@ -231,11 +231,8 @@ export default function LensPage() {
       <div className="mx-auto w-full max-w-5xl px-5 py-16 sm:px-8 lg:py-24">
         {/* Heading + description */}
         <header className="max-w-2xl">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-[#7bd0ff] sm:text-xs">
-            Project — Lens
-          </p>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            Link Parser
+          <h1 className="mt-4 text-3xl font-bold text-[#7bd0ff] tracking-tight sm:text-4xl lg:text-5xl">
+            Link <span className="text-silver">Parser</span>
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-[#c3cbcd] sm:text-base">
             A Spring Boot service that fetches any URL and returns an instant SEO
@@ -328,7 +325,7 @@ export default function LensPage() {
               className="mt-5 flex flex-col gap-3 sm:flex-row"
             >
               <input
-                type="url"
+                type="text"
                 inputMode="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
