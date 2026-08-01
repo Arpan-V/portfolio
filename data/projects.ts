@@ -14,6 +14,10 @@ export type Project = {
   image: StaticImageData;
   imageAlt: string;
   span: 1 | 2;
+  /** Internal route (e.g. "/projects/lens") or external URL. Optional. */
+  href?: string;
+  /** Label for the card's call-to-action. Defaults to "View project". */
+  linkLabel?: string;
 };
 
 export const projects: Project[] = [
@@ -22,15 +26,11 @@ export const projects: Project[] = [
     title: "NEURAL_STREAM V4",
     description:
       "Real-time processing engine for high-frequency trading data, utilizing Kafka and specialized Go routines for 2ms latency.",
-    technologies: [
-      "GO_1.21",
-      "APACHE_KAFKA",
-      "KUBERNETES",
-      "PROMETHEUS",
-    ],
+    technologies: ["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"],
     image: project1,
     imageAlt: "NEURAL_STREAM V4 project preview",
     span: 2,
+    
   },
   {
     id: 2,
@@ -42,6 +42,7 @@ export const projects: Project[] = [
     image: project2,
     imageAlt: "SENTINEL_AUTH project preview",
     span: 1,
+    href: "/projects/lens",
   },
   {
     id: 3,
