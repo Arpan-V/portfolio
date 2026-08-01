@@ -1,25 +1,13 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
-
-import InfiniteCarousel from "./InfiniteCarousel";
-import Lightbox, { type LightboxImage } from "./Lightbox";
 import Image from "next/image";
-import type { StaticImageData } from "next/image";
 import { Trophy } from "lucide-react";
-
-import cert1 from "./cert-1.png";
-import cert2 from "./cert-2.png";
-import cert3 from "./cert-3.png";
-import cert4 from "./cert-4.png";
-import cert5 from "./cert-5.png";
-import cert6 from "./cert-6.png";
-import cert7 from "./cert-7.png";
-import cert8 from "./cert-8.png";
-import cert9 from "./cert-9.png";
-
 import { motion, type Variants } from "framer-motion";
+
+import InfiniteCarousel from "@/lib/InfiniteCarousel";
+import Lightbox from "../ui/Lightbox";
+import { certificates, type Certificate } from "@/data/certs";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -49,65 +37,6 @@ const headingWord: Variants = {
     },
   },
 };
-
-type Certificate = {
-  id: number;
-  src: StaticImageData;
-  alt: string;
-};
-
-const certificates: Certificate[] = [
-  {
-    id: 1,
-    src: cert1,
-    alt: "Oracle Certified Professional, Java SE 17 Developer",
-  },
-  {
-    id: 2,
-    src: cert2,
-    alt: "AWS Certified Solutions Architect – Associate",
-  },
-  {
-    id: 3,
-    src: cert3,
-    alt: "Certified Kubernetes Application Developer",
-  },
-  {
-    id: 4,
-    src: cert4,
-    alt: "Spring Professional Development",
-  },
-  {
-    id: 5,
-    src: cert5,
-    alt: "Microsoft Certified: Azure Fundamentals",
-  },
-  {
-    id: 6,
-    src: cert6,
-    alt: "Microsoft Certified: Azure Fundamentals",
-  },
-  {
-    id: 7,
-    src: cert7,
-    alt: "Microsoft Certified: Azure Fundamentals",
-  },
-  {
-    id: 8,
-    src: cert8,
-    alt: "Microsoft Certified: Azure Fundamentals",
-  },
-  {
-    id: 9,
-    src: cert9,
-    alt: "Microsoft Certified: Azure Fundamentals",
-  },
-];
-
-const galleryImages: LightboxImage[] = certificates.map(({ src, alt }) => ({
-  src,
-  alt,
-}));
 
 /**
  * Certificate card dimensions per breakpoint.
@@ -200,6 +129,11 @@ export default function Certificates() {
   const { width, height, gap } = useCardMetrics();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  const galleryImages = certificates.map(({ src, alt }) => ({
+    src,
+    alt,
+  }));
+
   return (
     <section
       id="certs"
@@ -281,4 +215,3 @@ export default function Certificates() {
     </section>
   );
 }
-

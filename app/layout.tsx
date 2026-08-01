@@ -9,8 +9,8 @@ import {
 
 import type { Metadata, Viewport } from "next";
 
-import Navbar from "./Navbar";
-import Footer from "./Footer2";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 const manrope = Manrope({
   subsets: ["latin"],

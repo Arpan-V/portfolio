@@ -1,59 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import type { StaticImageData } from "next/image";
 import { Clock, Star } from "lucide-react";
 
-import InfiniteCarousel from "./InfiniteCarousel";
-
-import project1 from "./project-1.jpg";
-import project2 from "./project-2.jpg";
-import project3 from "./project-3.jpg";
-import project4 from "./project-4.jpg";
-
-type Showcase = {
-  id: number;
-  title: string;
-  duration: string;
-  rating: string;
-  image: StaticImageData;
-};
-
-const items: Showcase[] = [
-  {
-    id: 1,
-    title: "Neural Dashboard",
-    duration: "6 weeks",
-    rating: "4.9/5",
-    image: project1,
-  },
-  {
-    id: 2,
-    title: "Cloud Orchestrator",
-    duration: "9 weeks",
-    rating: "4.8/5",
-    image: project2,
-  },
-  {
-    id: 3,
-    title: "API Gateway",
-    duration: "4 weeks",
-    rating: "4.9/5",
-    image: project3,
-  },
-  {
-    id: 4,
-    title: "ML Pipeline",
-    duration: "7 weeks",
-    rating: "4.7/5",
-    image: project4,
-  },
-];
+import InfiniteCarousel from "@/lib/InfiniteCarousel";
+import {
+  projectShowcase,
+  type ProjectShowcase,
+} from "@/data/projectShowcase";
 
 const CARD_W = 210;
 const CARD_H = 290;
 
-function ShowcaseCard({ item }: { item: Showcase }) {
+function ShowcaseCard({ item }: { item: ProjectShowcase }) {
   return (
     <div
       style={{
@@ -169,12 +128,10 @@ export default function ProjectCarousel() {
         "
       >
         <InfiniteCarousel
-          items={items}
+          items={projectShowcase}
           speed={60}
           gap={24}
-          renderItem={(item) => (
-            <ShowcaseCard item={item} />
-          )}
+          renderItem={(item) => <ShowcaseCard item={item} />}
         />
       </a>
     </div>

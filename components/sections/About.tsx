@@ -1,23 +1,7 @@
 "use client";
 import { Coffee, Server, GitBranch } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-
-const stats = [
-  { value: "5+", label: "Years building" },
-  { value: "40+", label: "Systems shipped" },
-  { value: "12", label: "Teams collaborated" },
-];
-
-const stack = [
-  "Java",
-  "Spring Boot",
-  "Kafka",
-  "PostgreSQL",
-  "AWS",
-  "Kubernetes",
-  "Redis",
-  "GraphQL",
-];
+import { aboutInfo, aboutStack, aboutStats } from "@/data/about";
 
 // Apple-like smooth easing
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -162,7 +146,7 @@ export default function About() {
                 className="mt-4 flex flex-wrap gap-2"
                 variants={staggerContainer}
               >
-                {stack.map((item) => (
+                {aboutStack.map((item) => (
                   <motion.li
                     key={item}
                     variants={itemVariants}
@@ -203,7 +187,7 @@ export default function About() {
                 className="grid grid-cols-3 gap-6"
                 variants={staggerContainer}
               >
-                {stats.map((s) => (
+                {aboutStats.map((s) => (
                   <motion.div
                     key={s.label}
                     className="min-w-0"

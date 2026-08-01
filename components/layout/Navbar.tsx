@@ -21,7 +21,7 @@ import {
   House,
 } from "lucide-react";
 
-import { useIntersectionObserver } from "./UseIntersectionObserver";
+import { useIntersectionObserver } from "@/lib/UseIntersectionObserver";
 
 const links = [
   { href: "#home", label: "Home", icon: House },

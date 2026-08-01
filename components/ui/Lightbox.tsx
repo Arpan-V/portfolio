@@ -2,12 +2,10 @@
 
 import { useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import type { StaticImageData } from "next/image";
 import Image from "next/image";
 
-
 export type LightboxImage = {
-  src: StaticImageData;
+  src: string;
   alt: string;
 };
 
