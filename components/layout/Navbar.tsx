@@ -170,7 +170,7 @@ export default function Navbar() {
         <a
           href="#home"
           className="flex items-center gap-3 cursor-pointer"
-          aria-label="Go to home"
+          aria-label="Arpan Verma — Home"
         >
           <ChessKing className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
           <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
@@ -184,7 +184,7 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              aria-current={active === l.href ? "page" : undefined}
+              aria-current={active === l.href ? "location" : undefined}
               className={linkClass(l.href)}
             >
               {l.label}
@@ -238,7 +238,7 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={close}
-              aria-current={active === l.href ? "page" : undefined}
+              aria-current={active === l.href ? "location" : undefined}
               className={`${linkClass(l.href)} group py-4 border-b border-[#bec6e0]/24 last:border-b-0`}
             >
               <Icon className={`h-5 w-5 ${iconClass(l.href)}`} />

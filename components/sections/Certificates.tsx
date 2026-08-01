@@ -6,7 +6,7 @@ import { Trophy } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 
 import InfiniteCarousel from "@/lib/InfiniteCarousel";
-import Lightbox from "../ui/Lightbox";
+import Lightbox from "@/components/ui/Lightbox";
 import { certificates, type Certificate } from "@/data/certs";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -41,8 +41,8 @@ const headingWord: Variants = {
 /**
  * Certificate card dimensions per breakpoint.
  *
- * The original certificate images are 1024 × 736,
- * giving us an aspect ratio of approximately 1.39:1.
+ * Original certificate images: 1024 × 736
+ * Aspect ratio: approximately 1.39:1
  *
  * Mobile:  280 × 201
  * Tablet:  360 × 259
@@ -84,7 +84,9 @@ function useCardMetrics() {
 
     window.addEventListener("resize", read);
 
-    return () => window.removeEventListener("resize", read);
+    return () => {
+      window.removeEventListener("resize", read);
+    };
   }, []);
 
   return metrics;
@@ -110,7 +112,15 @@ function CertificateCard({
         height,
       }}
       aria-label={`Open ${item.alt}`}
-      className="block cursor-pointer overflow-hidden rounded-2xl border border-[#45464d] bg-[#0f172a]"
+      className="
+        block
+        cursor-pointer
+        overflow-hidden
+        rounded-2xl
+        border
+        border-[#45464d]
+        bg-[#0f172a]
+      "
     >
       <Image
         src={item.src}
@@ -119,7 +129,12 @@ function CertificateCard({
         width={1024}
         height={736}
         draggable={false}
-        className="block h-full w-full object-contain"
+        className="
+          block
+          h-full
+          w-full
+          object-contain
+        "
       />
     </button>
   );
@@ -137,19 +152,41 @@ export default function Certificates() {
   return (
     <section
       id="certs"
-      className="scroll-mt-10 w-full bg-[#101415] py-20 pb-42 sm:py-24 lg:py-27"
+      className="
+        scroll-mt-10
+        w-full
+        bg-[#101415]
+        py-20
+        pb-42
+        sm:py-24
+        lg:py-27
+      "
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+        {/* Section divider */}
         <div className="flex items-center gap-4">
-          <span className="h-px flex-1 bg-[#45464d]/70" />
+          <span
+            className="h-px flex-1 bg-[#45464d]/70"
+            aria-hidden="true"
+          />
         </div>
 
+        {/* Main section heading */}
         <motion.h2
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.6 }}
           variants={headingContainer}
-          className="mt-6 max-w-2xl font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-6xl"
+          className="
+            mt-6
+            max-w-2xl
+            font-display
+            text-3xl
+            font-bold
+            tracking-tight
+            sm:text-4xl
+            lg:text-6xl
+          "
         >
           <motion.span
             variants={headingWord}
@@ -172,17 +209,33 @@ export default function Certificates() {
             Achievements
           </motion.span>
 
-          <motion.span variants={headingWord} className="inline-block">
+          <motion.span
+            variants={headingWord}
+            className="inline-block"
+            aria-hidden="true"
+          >
             <Trophy className="inline-block h-[0.8em] w-[0.8em] align-[-0.08em] text-[#EFBF04]" />
           </motion.span>
         </motion.h2>
 
-        <p className="mt-4 max-w-xl font-body text-base leading-relaxed text-silver/80 sm:text-lg">
+        {/* Section description */}
+        <p
+          className="
+            mt-4
+            max-w-xl
+            font-body
+            text-base
+            leading-relaxed
+            text-silver/80
+            sm:text-lg
+          "
+        >
           Continuous learning across the JVM ecosystem, cloud platforms and
           distributed systems. Tap a certificate to view it full size.
         </p>
       </div>
 
+      {/* Certificate carousel */}
       <div className="marquee-mask-x mt-12 sm:mt-14">
         <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <InfiniteCarousel
@@ -197,7 +250,9 @@ export default function Certificates() {
                 height={height}
                 onOpen={() =>
                   setOpenIndex(
-                    certificates.findIndex((c) => c.id === item.id)
+                    certificates.findIndex(
+                      (certificate) => certificate.id === item.id
+                    )
                   )
                 }
               />
@@ -206,6 +261,7 @@ export default function Certificates() {
         </div>
       </div>
 
+      {/* Full-size certificate viewer */}
       <Lightbox
         images={galleryImages}
         index={openIndex}

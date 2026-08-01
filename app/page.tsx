@@ -8,14 +8,12 @@ import Certificates from "@/components/sections/Certificates";
 export default function Home() {
   return (
     <>  
-      <main>
         <Hero />
         <About />
         <Projects />
         <Skills />
         <Certificates />
         <Contact />
-      </main>
     </>
   );
 }

@@ -115,9 +115,7 @@ function Chip({ Icon, label, color }: Skill) {
         aria-hidden="true"
       />
 
-      <span className="tracking-tight">
-        {label}
-      </span>
+      <span className="tracking-tight">{label}</span>
     </motion.li>
   );
 }
@@ -170,27 +168,6 @@ function LanguageTile({ Icon, label, color }: Skill) {
     </li>
   );
 }
-
-<ul
-  className="
-    grid
-    flex-1
-    grid-cols-3
-    gap-2.5
-    pt-2
-    sm:grid-cols-4
-    sm:gap-3
-    lg:grid-cols-4
-  "
->
-  {languages.map((skill) => (
-    <LanguageTile
-      key={skill.label}
-      {...skill}
-    />
-  ))}
-</ul>
-
 
 /* =========================================================
    CARD SHELL
@@ -249,6 +226,7 @@ function CardShell({
             tracking-[0.18em]
             text-neutral-500
           "
+          aria-hidden="true"
         >
           {index}
         </span>
@@ -297,10 +275,10 @@ export default function Skills() {
             SECTION LABEL
         ===================================================== */}
 
-        <motion.h2
+        <motion.p
           variants={fadeUpVariants}
           className="
-            mb-10
+            mb-4
             flex
             items-center
             gap-3
@@ -310,7 +288,7 @@ export default function Skills() {
             uppercase
             tracking-[0.25em]
             text-[#7bd0ff]
-            sm:mb-12
+            sm:mb-5
             sm:gap-4
             sm:text-lg
             sm:tracking-[0.3em]
@@ -344,13 +322,14 @@ export default function Skills() {
           <motion.span variants={blurReveal}>
             03 // SKILLS
           </motion.span>
-        </motion.h2>
+        </motion.p>
 
         {/* =====================================================
             MAIN HEADING
         ===================================================== */}
 
-        <h2
+        <motion.h2
+          variants={blurReveal}
           className="
             mb-14
             max-w-3xl
@@ -364,26 +343,21 @@ export default function Skills() {
             lg:text-6xl
           "
         >
-          <motion.span
-            variants={blurReveal}
-            className="block"
-          >
+          <span className="block">
             The tools I reach for
-          </motion.span>
+          </span>
 
-          <motion.span
-            variants={blurReveal}
-            className="block text-sky-dim"
-          >
+          <span className="block text-sky-dim">
             when the work gets real.
-          </motion.span>
-        </h2>
+          </span>
+        </motion.h2>
 
         {/* =====================================================
             BENTO GRID
         ===================================================== */}
 
-        <div
+        <motion.div
+          variants={staggerContainer}
           className="
             grid
             grid-cols-1
@@ -493,7 +467,7 @@ export default function Skills() {
               ))}
             </motion.ul>
           </CardShell>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

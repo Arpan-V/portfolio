@@ -261,10 +261,7 @@ function ProjectCard({ project }: { project: Project }) {
         variants={chipContainer}
       >
         {project.technologies.map((technology) => (
-          <Chip
-            key={technology}
-            label={technology}
-          />
+          <Chip key={technology} label={technology} />
         ))}
       </motion.div>
 
@@ -344,10 +341,10 @@ export default function Projects() {
           lg:py-32
         "
       >
-        {/* Section heading */}
-        <motion.h2
+        {/* Section label */}
+        <motion.p
           className="
-            mb-10
+            mb-4
             flex
             items-center
             gap-3
@@ -357,7 +354,7 @@ export default function Projects() {
             uppercase
             tracking-[0.25em]
             text-[#7bd0ff]
-            sm:mb-12
+            sm:mb-5
             sm:gap-4
             sm:text-lg
             sm:tracking-[0.3em]
@@ -384,6 +381,24 @@ export default function Projects() {
           <motion.span variants={blurReveal}>
             02 // PROJECTS
           </motion.span>
+        </motion.p>
+
+        {/* Main section heading */}
+        <motion.h2
+          className="
+            mb-10
+            font-['Manrope']
+            text-3xl
+            font-extrabold
+            tracking-tight
+            text-[#dae2fd]
+            sm:mb-12
+            sm:text-4xl
+            lg:text-5xl
+          "
+          variants={blurReveal}
+        >
+          Featured Projects
         </motion.h2>
 
         {/* Project grid */}

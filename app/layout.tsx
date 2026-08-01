@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import PersonSchema from "@/components/ui/PersonSchema";
 
 import {
   Manrope,
@@ -45,7 +45,32 @@ export const metadata: Metadata = {
       "Software Engineer focused on building scalable, reliable backend systems and modern web applications.",
     type: "website",
     locale: "en_US",
+
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Arpan Verma - Software Engineer",
+      },
+    ],
   },
+
+  twitter: {
+  card: "summary_large_image",
+  title: "Arpan Verma | Software Engineer",
+  description:
+    "Software Engineer focused on building scalable, reliable backend systems and modern web applications.",
+  images: ["/images/og-image.png"],
+},
+
+  // Add this when you have your final domain.
+  // alternates: {
+  //   canonical: "https://yourdomain.com",
+  // },
+
+  // Add this when you have your final domain.
+  // metadataBase: new URL("https://yourdomain.com"),
 };
 
 export const viewport: Viewport = {
@@ -68,6 +93,7 @@ export default function RootLayout({
   `}
 >
   <body className="antialiased">
+    <PersonSchema />
     <Navbar />
     <main>{children}</main>
     <Footer />
