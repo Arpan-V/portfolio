@@ -174,25 +174,25 @@ export default function About() {
             <motion.div className="border-2 border-border/77 p-8 sm:p-10">
               {/* Stats */}
               <motion.dl
-                className="grid grid-cols-3 gap-6"
-                variants={staggerContainer}
-              >
-                {aboutStats.map((stat) => (
-                  <motion.div
-                    key={stat.label}
-                    className="min-w-0"
-                    variants={itemVariants}
-                  >
-                    <dt className="mt-2 font-body text-xs uppercase tracking-widest text-silver/60">
-                      {stat.label}
-                    </dt>
+  className="grid grid-cols-3 gap-4 sm:gap-6"
+  variants={staggerContainer}
+>
+  {aboutStats.map((stat) => (
+    <motion.div
+      key={stat.label}
+      className="min-w-0 text-center"
+      variants={itemVariants}
+    >
+      <dd className="font-display text-3xl font-bold leading-none text-foreground sm:text-4xl">
+        {stat.value}
+      </dd>
 
-                    <dd className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-                      {stat.value}
-                    </dd>
-                  </motion.div>
-                ))}
-              </motion.dl>
+      <dt className="mt-3 font-body text-[10px] uppercase tracking-[0.15em] text-silver/60 sm:text-xs sm:tracking-widest">
+        {stat.label}
+      </dt>
+    </motion.div>
+  ))}
+</motion.dl>
 
               {/* Info rows */}
               <motion.div

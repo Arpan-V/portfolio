@@ -27,7 +27,7 @@ export const projects: Project[] = [
     description:
       "Real-time processing engine for high-frequency trading data, utilizing Kafka and specialized Go routines for 2ms latency.",
     technologies: ["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"],
-    image: project1,
+    image: project3,
     imageAlt: "NEURAL_STREAM V4 project preview",
     span: 2,
     
@@ -51,7 +51,7 @@ export const projects: Project[] = [
     description:
       "A minimalist Python library for generating DAG-based workflows with native typing and async support.",
     technologies: ["PYTHON_3.11", "PYPI"],
-    image: project3,
+    image: project1,
     imageAlt: "PY_FLOW_GEN project preview",
     span: 1,
   },

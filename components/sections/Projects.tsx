@@ -97,7 +97,7 @@ function ProjectCard({ project }: { project: Project }) {
   const content = (
     <motion.article
       variants={cardVariants}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.9)] backdrop-blur-md sm:p-5"
+      className="group relative flex h-full lg:h-[520px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.9)] backdrop-blur-md sm:p-5"
     >
       {/* Blue gradient on hover */}
       <span
@@ -211,7 +211,7 @@ export default function Projects() {
         initial="hidden"
         whileInView="show"
         viewport={viewport}
-        className="relative mx-auto w-full max-w-5xl px-5 sm:px-8"
+        className="relative mx-auto w-full max-w-6xl px-5 sm:px-8"
       >
         {/* Section label */}
         <motion.p
