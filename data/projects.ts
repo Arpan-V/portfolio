@@ -23,39 +23,50 @@ export type Project = {
 export const projects: Project[] = [
   
   {
-    id: 2,
-    title: "SENTINEL_AUTH",
-    category: "SaaS_Product",
-    description:
-      "Zero-trust authentication provider built as a sidecar proxy for microservices. Integrated with AWS KMS.",
-    technologies: ["RUST", "AWS_SDK"],
-    image: project2,
-    imageAlt: "SENTINEL_AUTH project preview",
-    span: 1,
-    href: "/projects/lens",
-  },
+  id: 2,
+  title: "LINK_PARSER_API",
+  category: "Backend_API",
+  description:
+    "Spring Boot API that parses web pages and extracts SEO and content metadata including page titles, meta descriptions, H1 tags, image alt text, and approximate word count.",
+  technologies: ["JAVA", "SPRING_BOOT", "JSOUP"],
+  image: project2,
+  imageAlt: "Link Parser API project preview",
+  span: 1,
+  href: "/projects/lens",
+},
   {
     id: 3,
     title: "PY_FLOW_GEN",
-    category: "Open_Source",
     description:
       "A minimalist Python library for generating DAG-based workflows with native typing and async support.",
     technologies: ["PYTHON_3.11", "PYPI"],
     image: project1,
     imageAlt: "PY_FLOW_GEN project preview",
     span: 1,
+    href: "/projects/hangman-game",
   },
-  {
-    id: 1,
-    title: "NEURAL_STREAM V4",
-    description:
-      "Real-time processing engine for high-frequency trading data, utilizing Kafka and specialized Go routines for 2ms latency.",
-    technologies: ["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"],
-    image: project1,
-    imageAlt: "NEURAL_STREAM V4 project preview",
-    span: 2,
-    
-  },
+
+{
+  id: 1,
+  title: "SHOPSMART",
+  category: "Full_Stack_E_Commerce",
+  description:
+    "Full-stack e-commerce application with a React and Vite frontend and a production-style Spring Boot backend featuring JWT authentication, Google OAuth, role-based access, PostgreSQL, optimized APIs, and Docker.",
+  technologies: [
+    "REACT",
+    "VITE",
+    "JAVA",
+    "SPRING_BOOT",
+    "POSTGRESQL",
+    "JWT",
+    "DOCKER",
+  ],
+  image: project1,
+  imageAlt: "ShopSmart full-stack e-commerce application preview",
+  span: 2,
+  href: "https://av-shopsmart.vercel.app/",
+},
+
   // {
   //   id: 4,
   //   title: "GRAPH_SCHEMA_VIZ",

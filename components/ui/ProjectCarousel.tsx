@@ -1,7 +1,7 @@
+
 "use client";
 
 import Image from "next/image";
-import { Clock, Star } from "lucide-react";
 
 import InfiniteCarousel from "@/lib/InfiniteCarousel";
 import {
@@ -69,28 +69,6 @@ function ShowcaseCard({ item }: { item: ProjectShowcase }) {
         >
           {item.title}
         </h3>
-
-        <div
-          className="
-            mt-2
-            flex
-            items-center
-            gap-4
-            text-xs
-            font-medium
-            text-white/90
-          "
-        >
-          <span className="inline-flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5" />
-            {item.duration}
-          </span>
-
-          <span className="inline-flex items-center gap-1.5">
-            <Star className="h-3.5 w-3.5 fill-current" />
-            {item.rating}
-          </span>
-        </div>
       </div>
     </div>
   );

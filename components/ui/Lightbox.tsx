@@ -26,11 +26,13 @@ export default function Lightbox({
 
   const goPrev = useCallback(() => {
     if (index === null || images.length === 0) return;
+
     onIndexChange((index - 1 + images.length) % images.length);
   }, [index, images.length, onIndexChange]);
 
   const goNext = useCallback(() => {
     if (index === null || images.length === 0) return;
+
     onIndexChange((index + 1) % images.length);
   }, [index, images.length, onIndexChange]);
 
@@ -50,7 +52,9 @@ export default function Lightbox({
 
     window.addEventListener("keydown", onKeyDown);
 
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [isOpen, onClose, goPrev, goNext]);
 
   // Lock body scroll while open
@@ -80,15 +84,17 @@ export default function Lightbox({
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 sm:p-8"
       onClick={onClose}
     >
+      {/* Close button */}
       <button
         type="button"
         aria-label="Close"
         onClick={onClose}
-        className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#45464d] bg-[#0f172a] text-silver transition-colors hover:text-[#7bd0ff] sm:right-6 sm:top-6"
+        className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#45464d] bg-[#0f172a] text-silver transition-colors hover:text-[#7bd0ff] sm:right-6 sm:top-6"
       >
         <X className="h-5 w-5" />
       </button>
 
+      {/* Previous / Next buttons */}
       {images.length > 1 ? (
         <>
           <button
@@ -98,7 +104,7 @@ export default function Lightbox({
               event.stopPropagation();
               goPrev();
             }}
-            className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#45464d] bg-[#0f172a] text-silver transition-colors hover:text-[#7bd0ff] sm:left-6 sm:h-12 sm:w-12"
+            className="absolute left-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#45464d] bg-[#0f172a] text-silver transition-colors hover:text-[#7bd0ff] sm:left-6 sm:h-12 sm:w-12"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -110,25 +116,32 @@ export default function Lightbox({
               event.stopPropagation();
               goNext();
             }}
-            className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#45464d] bg-[#0f172a] text-silver transition-colors hover:text-[#7bd0ff] sm:right-6 sm:h-12 sm:w-12"
+            className="absolute right-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#45464d] bg-[#0f172a] text-silver transition-colors hover:text-[#7bd0ff] sm:right-6 sm:h-12 sm:w-12"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
         </>
       ) : null}
 
+      {/* Certificate */}
       <figure
-        className="flex max-h-full w-full max-w-5xl flex-col items-center gap-4"
+        className="flex h-[80vh] w-full max-w-5xl flex-col items-center gap-4"
         onClick={(event) => event.stopPropagation()}
       >
-        <Image
-          src={current.src}
-          alt={current.alt}
-          className="max-h-[75vh] w-auto max-w-full rounded-xl border border-[#45464d] object-contain"
-        />
+        <div className="relative min-h-0 w-full flex-1">
+          <Image
+            src={current.src}
+            alt={current.alt}
+            fill
+            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 85vw, 80vw"
+            className="rounded-xl border border-[#45464d] object-contain"
+          />
+        </div>
 
-        <figcaption className="font-body text-sm text-silver/80">
+        {/* Caption */}
+        <figcaption className="shrink-0 font-body text-sm text-silver/80">
           {current.alt}
+
           {images.length > 1 ? (
             <span className="ml-2 text-silver/50">
               {index + 1} / {images.length}

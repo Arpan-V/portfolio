@@ -10,17 +10,17 @@ export type AboutInfo = {
 
 export const aboutStats: AboutStat[] = [
   {
-    value: "5+",
-    label: "Years building",
-  },
-  {
-    value: "40+",
-    label: "Systems shipped",
-  },
-  {
-    value: "12",
-    label: "Teams collaborated",
-  },
+  value: "3+",
+  label: "Years building",
+},
+{
+  value: "∞",
+  label: "Things to learn",
+},
+{
+  value: "15+",
+  label: "Technologies",
+},
 ];
 
 export const aboutStack: string[] = [
@@ -29,22 +29,29 @@ export const aboutStack: string[] = [
   "Kafka",
   "PostgreSQL",
   "AWS",
+  "Docker",
   "Kubernetes",
-  "Redis",
-  "GraphQL",
+  "React",
+  "Vite",
+  "Next.js",
+  "GitHub"
 ];
 
 export const aboutInfo: AboutInfo[] = [
   {
-    label: "Focus",
-    value: "Distributed backends & platform work",
-  },
-  {
-    label: "Approach",
-    value: "Small commits, clear contracts, few surprises",
-  },
-  {
-    label: "Based in",
-    value: "Bengaluru, India",
-  },
+  label: "Building",
+  value: "Full-stack applications & APIs",
+},
+{
+  label: "Mindset",
+  value: "Simple solutions, clean code, clear contracts",
+},
+// {
+//   label: "Location",
+//   value: "India",
+// },
+{
+  label: "Stack",
+  value: "Java, Spring Boot & Next.js/Vite",
+},
 ];

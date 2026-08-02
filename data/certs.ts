@@ -1,4 +1,3 @@
-
 export type Certificate = {
   id: number;
   src: string;
@@ -9,47 +8,46 @@ export const certificates: Certificate[] = [
   {
     id: 1,
     src: "/images/certificates/cert-1.png",
-    alt: "Oracle Certified Professional, Java SE 17 Developer",
+    alt: "ISRO Geoprocessing with Python",
   },
   {
     id: 2,
     src: "/images/certificates/cert-2.png",
-    alt: "AWS Certified Solutions Architect – Associate",
+    alt: "Google Assets, Threats and Vulnerabilities",
   },
   {
     id: 3,
     src: "/images/certificates/cert-3.png",
-    alt: "Certified Kubernetes Application Developer",
+    alt: "Postman API Fundamentals Expert",
   },
   {
     id: 4,
     src: "/images/certificates/cert-4.png",
-    alt: "Spring Professional Development",
+    alt: "Artificial Intelligence and Machine Learning",
   },
   {
     id: 5,
     src: "/images/certificates/cert-5.png",
-    alt: "Microsoft Certified: Azure Fundamentals",
+    alt: "Google Connect and Protect: Networks and Network Security",
   },
   {
     id: 6,
     src: "/images/certificates/cert-6.png",
-    alt: "Microsoft Certified: Azure Fundamentals",
+    alt: "Google Foundations of Cybersecurity",
   },
   {
     id: 7,
     src: "/images/certificates/cert-7.png",
-    alt: "Microsoft Certified: Azure Fundamentals",
+    alt: "Google Play It Safe: Manage Security Risks",
   },
   {
     id: 8,
     src: "/images/certificates/cert-8.png",
-    alt: "Microsoft Certified: Azure Fundamentals",
+    alt: "Python",
   },
   {
     id: 9,
     src: "/images/certificates/cert-9.png",
-    alt: "Microsoft Certified: Azure Fundamentals",
+    alt: "Google Tools of the Trade: Linux and SQL",
   },
 ];
-

@@ -147,7 +147,7 @@ export default function Contact() {
 
                   {/* TODO: Replace with your real email */}
                   <a
-                    href="mailto:arpan@example.com"
+                    href="mailto:arpan24622@gmail.com"
                     className="
                       group
                       flex
@@ -199,14 +199,14 @@ export default function Contact() {
                           group-hover:text-[#7bd0ff]
                         "
                       >
-                        arpan@example.com
+                        arpan24622@gmail.com
                       </div>
                     </div>
                   </a>
 
                   {/* Location */}
 
-                  <div className="flex items-center gap-4">
+                  {/* <div className="flex items-center gap-4">
                     <div
                       className="
                         flex
@@ -252,7 +252,7 @@ export default function Contact() {
                         Bengaluru, India (Remote)
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -317,7 +317,7 @@ export default function Contact() {
 
                   {/* TODO: Replace with your real LinkedIn URL */}
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/arpan99"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Arpan Verma on LinkedIn"
@@ -349,7 +349,7 @@ export default function Contact() {
 
                   {/* TODO: Replace with your real X/Twitter URL */}
                   <a
-                    href="https://twitter.com"
+                    href="mailto:arpan24622@gmail.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Arpan Verma on X"

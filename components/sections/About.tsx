@@ -147,17 +147,19 @@ export default function About() {
               className="mt-8 space-y-5 font-body text-base leading-relaxed text-silver/80 sm:text-lg"
             >
               <p>
-                I&apos;m a software engineer focused on the JVM ecosystem —
-                designing backend services, event-driven pipelines, and the
-                infrastructure that keeps them honest under real load.
-              </p>
+  I&apos;m a full-stack developer focused on building reliable applications
+  from the interface to the backend — designing responsive experiences,
+  robust APIs, and the infrastructure that keeps everything running smoothly
+  even under the load.
+</p>
 
-              <p>
-                My work sits between product intent and system reliability. I
-                care about clear boundaries, observable behaviour, and code
-                that a teammate can read six months from now without needing a
-                call.
-              </p>
+<p>
+  I like building things that are simple to understand and reliable in
+  practice. I care about writing clean code, keeping things organized, and
+  making sure what I build is easy for others to work with and maintain.
+</p>
+
+
             </motion.div>
 
             {/* Technology stack */}

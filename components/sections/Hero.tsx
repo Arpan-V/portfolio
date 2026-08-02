@@ -3,6 +3,7 @@ import { Code, FolderGit2 } from "lucide-react";
 import ProjectCarousel from "../ui/ProjectCarousel";
 
 import DotGrid from "../ui/DotGrid";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -23,6 +24,7 @@ export default function Hero() {
             <h1 className="text-5xl font-display font-bold leading-[0.95] tracking-tighter text-foreground sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl">
               <span className="relative z-10 mr-2 text-sky-dim">ARPAN </span>
               <span className="relative z-10">VERMA</span>
+              <span className="sr-only"> — Full-Stack Developer</span>
             </h1>
 
             <p className="relative z-10 mt-3 max-w-2xl font-display text-2xl font-semibold leading-tight tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
@@ -41,13 +43,13 @@ export default function Hero() {
             </p>
 
             <div className="mt-10 flex flex-col items-start gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-10 lg:mt-11">
-              <a
+              <Link
                 href="#projects"
                 className="relative z-10 inline-flex cursor-pointer items-center justify-center gap-2 bg-silver px-5 py-3 font-code text-xs font-bold uppercase tracking-widest text-surface transition-colors hover:bg-accent hover:text-accent-foreground sm:px-7 sm:py-3.5 sm:text-sm"
               >
                 <Code className="h-4 w-4 sm:h-5 sm:w-5" />
                 View_Projects
-              </a>
+              </Link>
 
               <a
                 href="https://github.com/arpan-v"
