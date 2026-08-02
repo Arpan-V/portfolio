@@ -228,7 +228,7 @@ export default function Navbar() {
       className="fixed top-0 z-50 h-[70px] w-full border-b border-white/10 bg-[#050b18]/66 backdrop-blur-md"
     >
       <div className="flex justify-between items-center px-6 pt-6 pb-3 md:py-4">
-        <Link
+        <a
           href="#home"
           className="flex items-center gap-3 cursor-pointer"
           aria-label="Arpan Verma — Home"
@@ -237,19 +237,19 @@ export default function Navbar() {
           <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
             ΛRPΛN
           </span>
-        </Link>
+        </a>
 
         {/* Desktop Navigation */}
         <nav aria-label="Primary" className="hidden md:flex gap-8 items-center">
           {links.map((l) => (
-            <Link
+            <a
               key={l.href}
               href={l.href}
               aria-current={active === l.href ? "location" : undefined}
               className={linkClass(l.href)}
             >
               {l.label}
-            </Link>
+            </a>
           ))}
           <a
             href={RESUME_URL}
@@ -295,7 +295,7 @@ export default function Navbar() {
         {links.map((l) => {
           const Icon = l.icon;
           return (
-            <Link
+            <a
               key={l.href}
               href={l.href}
               onClick={close}
@@ -304,7 +304,7 @@ export default function Navbar() {
             >
               <Icon className={`h-5 w-5 ${iconClass(l.href)}`} />
               <span>{l.label}</span>
-            </Link>
+            </a>
           );
         })}
 

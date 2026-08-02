@@ -64,7 +64,7 @@ function ShowcaseCard({ item }: { item: ProjectShowcase }) {
             font-bold
             leading-[1.2]
             tracking-tight
-            text-white
+            text-[#C0C0C0]/97
           "
         >
           {item.title}

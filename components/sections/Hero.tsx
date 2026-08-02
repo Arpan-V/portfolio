@@ -43,13 +43,13 @@ export default function Hero() {
             </p>
 
             <div className="mt-10 flex flex-col items-start gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-10 lg:mt-11">
-              <Link
+              <a
                 href="#projects"
                 className="relative z-10 inline-flex cursor-pointer items-center justify-center gap-2 bg-silver px-5 py-3 font-code text-xs font-bold uppercase tracking-widest text-surface transition-colors hover:bg-accent hover:text-accent-foreground sm:px-7 sm:py-3.5 sm:text-sm"
               >
                 <Code className="h-4 w-4 sm:h-5 sm:w-5" />
                 View_Projects
-              </Link>
+              </a>
 
               <a
                 href="https://github.com/arpan-v"

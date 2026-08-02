@@ -18,7 +18,7 @@ export const projectShowcase: ProjectShowcase[] = [
   },
   {
     id: 3,
-    title: "API Gateway",
+    title: "Hangman Game",
     image: "/images/projects/project-3.jpg",
   },
   // {

@@ -200,7 +200,7 @@ export default function LensPage() {
               Try it live
             </h2>
             <p className="mt-1.5 text-sm text-[#c3cbcd]">
-              Paste any public URL and the backend will fetch, parse and score it.
+              Paste any public URL and the backend will fetch, parse and score it. <span className="text-[#E53935]">(The backend is hosted on Render so it might take a few minutes to load)</span>
             </p>
 
             <form
