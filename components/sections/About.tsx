@@ -6,6 +6,7 @@ import { aboutInfo, aboutStack, aboutStats } from "@/data/about";
 
 // Apple-like smooth easing
 const EASE = [0.22, 1, 0.36, 1] as const;
+const DURATION = 0.9;
 
 // Reveal entire section container — orchestrates children via stagger
 const staggerContainer: Variants = {
@@ -18,51 +19,45 @@ const staggerContainer: Variants = {
   },
 };
 
-// Standard item rise + fade
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 2, ease: EASE },
+// Single shared reveal animation
+const reveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 16,
+    filter: "blur(8px)",
   },
-};
-
-// Heading lines: rise + soft blur removal
-const blurReveal: Variants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
   show: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 2, ease: EASE },
+    transition: {
+      duration: DURATION,
+      ease: EASE,
+    },
   },
 };
 
-// Stats card fades up slightly delayed vs left column
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: EASE, delay: 0.12 },
+// Reduced-motion fallback
+const fadeOnly: Variants = {
+  hidden: {
+    opacity: 0,
   },
-};
-
-// Icon subtle rotate settle
-const iconVariants: Variants = {
-  hidden: { opacity: 0, rotate: 4 },
   show: {
     opacity: 1,
-    rotate: 0,
-    transition: { duration: 0.5, ease: EASE },
+    transition: {
+      duration: 0.3,
+    },
   },
 };
 
 export default function About() {
   const reduce = useReducedMotion();
+  const variants = reduce ? fadeOnly : reveal;
 
-  const viewport = { once: true, amount: 0.45 };
+  const viewport = {
+    once: true,
+    amount: 0.45,
+  };
 
   return (
     <motion.section
@@ -78,24 +73,54 @@ export default function About() {
         <motion.p
           className="mb-6 flex items-center gap-3 font-['Manrope'] text-sm font-bold uppercase tracking-[0.25em] sm:mb-8 sm:gap-4 sm:text-lg sm:tracking-[0.3em]"
           initial={reduce ? { opacity: 0 } : { color: "#3a6b85" }}
-          whileInView={reduce ? { opacity: 1 } : { color: "#7bd0ff" }}
+          whileInView={
+            reduce
+              ? { opacity: 1 }
+              : { color: "#7bd0ff" }
+          }
           viewport={viewport}
-          transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
+          transition={{
+            duration: 1.1,
+            ease: EASE,
+            delay: 0.15,
+          }}
         >
+          {/* Animated line */}
           <motion.span
             className="block h-[1px] origin-left bg-[#7bd0ff]"
-            initial={{ scaleX: 0, width: "1.5rem" }}
-            whileInView={{ scaleX: 1 }}
+            initial={{
+              scaleX: 0,
+              width: "1.5rem",
+            }}
+            whileInView={{
+              scaleX: 1,
+            }}
             viewport={viewport}
-            transition={{ duration: 0.9, ease: EASE }}
-            style={{ transformOrigin: "left center" }}
+            transition={{
+              duration: 0.9,
+              ease: EASE,
+            }}
+            style={{
+              transformOrigin: "left center",
+            }}
           />
 
+          {/* Animated ABOUT ME text */}
           <motion.span
-            initial={{ opacity: 0, y: 6 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 6,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
             viewport={viewport}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.35 }}
+            transition={{
+              duration: 0.6,
+              ease: EASE,
+              delay: 0.35,
+            }}
           >
             01 // ABOUT ME
           </motion.span>
@@ -103,102 +128,86 @@ export default function About() {
 
         <div className="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-16">
           {/* Left: heading + copy */}
-          <motion.div
-            className="lg:col-span-7"
-            variants={staggerContainer}
-          >
+          <div className="lg:col-span-7">
             {/* Main section heading */}
-            <h2 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              <motion.span variants={blurReveal} className="block">
-                Engineering systems
-              </motion.span>
+            <motion.h2
+              variants={variants}
+              className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+            >
+              <span className="block">Engineering systems</span>
 
-              <motion.span
-                variants={blurReveal}
-                className="block text-sky-dim"
-              >
+              <span className="block text-[#9aa3a6]">
                 that quietly scale.
-              </motion.span>
-            </h2>
+              </span>
+            </motion.h2>
 
             {/* About copy */}
             <motion.div
+              variants={variants}
               className="mt-8 space-y-5 font-body text-base leading-relaxed text-silver/80 sm:text-lg"
-              variants={staggerContainer}
             >
-              <motion.p variants={itemVariants}>
+              <p>
                 I&apos;m a software engineer focused on the JVM ecosystem —
                 designing backend services, event-driven pipelines, and the
                 infrastructure that keeps them honest under real load.
-              </motion.p>
+              </p>
 
-              <motion.p variants={itemVariants}>
+              <p>
                 My work sits between product intent and system reliability. I
                 care about clear boundaries, observable behaviour, and code
                 that a teammate can read six months from now without needing a
                 call.
-              </motion.p>
+              </p>
             </motion.div>
 
             {/* Technology stack */}
-            <div className="mt-10">
-              <motion.p
-                variants={itemVariants}
-                className="font-display text-xs uppercase tracking-[0.25em]"
-              >
+            <motion.div
+              variants={variants}
+              className="mt-10"
+            >
+              <p className="font-display text-xs uppercase tracking-[0.25em]">
                 Working with
-              </motion.p>
+              </p>
 
-              <motion.ul
-                className="mt-4 flex flex-wrap gap-2"
-                variants={staggerContainer}
-              >
+              <div className="mt-4 flex flex-wrap gap-2">
                 {aboutStack.map((item) => (
-                  <motion.li
+                  <span
                     key={item}
-                    variants={itemVariants}
-                    className="cursor-default border border-[#7bd0ff] px-3 py-1.5 font-body text-sm text-[#7bd0ff]"
+                    className="cursor-default border border-[#D9DADB]/30 px-3 py-1.5 font-body text-sm text-[#D9DADB]"
                   >
                     {item}
-                  </motion.li>
+                  </span>
                 ))}
-              </motion.ul>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </div>
 
           {/* Right: stats + notes card */}
           <motion.div
+            variants={variants}
             className="lg:col-span-5"
-            variants={cardVariants}
           >
-            <motion.div className="border-2 border-border/77 p-8 sm:p-10">
+            <div className="border-2 border-[#D9DADB]/45 p-8 sm:p-10">
               {/* Stats */}
-              <motion.dl
-  className="grid grid-cols-3 gap-4 sm:gap-6"
-  variants={staggerContainer}
->
-  {aboutStats.map((stat) => (
-    <motion.div
-      key={stat.label}
-      className="min-w-0 text-center"
-      variants={itemVariants}
-    >
-      <dd className="font-display text-3xl font-bold leading-none text-foreground sm:text-4xl">
-        {stat.value}
-      </dd>
+              <div className="grid grid-cols-3 gap-4 sm:gap-6">
+                {aboutStats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="min-w-0 text-center"
+                  >
+                    <dd className="font-display text-3xl font-bold leading-none text-foreground sm:text-4xl">
+                      {stat.value}
+                    </dd>
 
-      <dt className="mt-3 font-body text-[10px] uppercase tracking-[0.15em] text-silver/60 sm:text-xs sm:tracking-widest">
-        {stat.label}
-      </dt>
-    </motion.div>
-  ))}
-</motion.dl>
+                    <dt className="mt-3 font-body text-[10px] uppercase tracking-[0.15em] text-silver/60 sm:text-xs sm:tracking-widest">
+                      {stat.label}
+                    </dt>
+                  </div>
+                ))}
+              </div>
 
               {/* Info rows */}
-              <motion.div
-                className="mt-10 space-y-5 border-t border-[#7bd0ff] pt-8"
-                variants={staggerContainer}
-              >
+              <div className="mt-10 space-y-5 border-t border-[#D9DADB]/45 pt-8">
                 {aboutInfo.map((info) => (
                   <Row
                     key={info.label}
@@ -213,10 +222,11 @@ export default function About() {
                     }
                     label={info.label}
                     value={info.value}
+                    variants={variants}
                   />
                 ))}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -225,27 +235,28 @@ export default function About() {
 }
 
 function Row({
-  icon,
+  // icon,
   label,
   value,
+  variants,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
+  variants: Variants;
 }) {
   return (
     <motion.div
       className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-4"
-      variants={itemVariants}
+      variants={variants}
     >
-      <motion.span
-        variants={iconVariants}
-        className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center border border-[#7bd0ff] text-primary"
+      {/* <span
+        className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center border border-silver text-silver"
       >
         {icon}
-      </motion.span>
+      </span> */}
 
-      <motion.div className="min-w-0" variants={itemVariants}>
+      <div className="min-w-0">
         <p className="font-display text-[10px] uppercase tracking-[0.25em] text-silver/60">
           {label}
         </p>
@@ -253,7 +264,7 @@ function Row({
         <p className="mt-1 font-body text-sm text-silver/90 sm:text-base">
           {value}
         </p>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

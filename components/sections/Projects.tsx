@@ -200,7 +200,7 @@ function ProjectCard({ project }: { project: Project }) {
 // -----------------------------------------------------------------------------
 
 export default function Projects() {
-  const viewport = { once: true, amount: 0.25 };
+  const viewport = { once: true, amount: 0.15 };
 
   return (
     <section id="projects" className="relative w-full py-20 sm:py-28">
