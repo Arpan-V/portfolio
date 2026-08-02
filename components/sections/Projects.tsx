@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useRef } from "react";
 import { AppWindowMac, ArrowUpRight } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
@@ -11,6 +12,16 @@ import { projects, type Project } from "@/data/projects";
 
 // Apple-style easing shared across every motion in this section.
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * Module-scope flag.
+ *
+ * A module is evaluated ONCE per full page load and then cached for the whole
+ * client-side session. This survives unmount/remount caused by client
+ * navigation (/projects/lens -> back to home), but resets on reload / hard
+ * navigation.
+ */
+let hasAnimatedOnce = false;
 
 const staggerContainer: Variants = {
   hidden: {},
@@ -200,7 +211,29 @@ function ProjectCard({ project }: { project: Project }) {
 // -----------------------------------------------------------------------------
 
 export default function Projects() {
+  // Snapshot the flag for this particular mount.
+  //
+  // If Projects has already animated earlier during this client-side session,
+  // it will mount directly into its final state.
+  const alreadyAnimated = useRef(hasAnimatedOnce).current;
+
   const viewport = { once: true, amount: 0.15 };
+
+  // First mount:
+  //   hidden -> show when entering viewport
+  //
+  // Later remount:
+  //   render directly in "show" state with no initial/whileInView animation.
+  const motionProps = alreadyAnimated
+    ? ({ initial: false, animate: "show" } as const)
+    : ({
+        initial: "hidden" as const,
+        whileInView: "show" as const,
+        viewport,
+        onAnimationComplete: () => {
+          hasAnimatedOnce = true;
+        },
+      } as const);
 
   return (
     <section id="projects" className="relative w-full py-20 sm:py-28">
@@ -208,9 +241,7 @@ export default function Projects() {
 
       <motion.div
         variants={staggerContainer}
-        initial="hidden"
-        whileInView="show"
-        viewport={viewport}
+        {...motionProps}
         className="relative mx-auto w-full max-w-6xl px-5 sm:px-8"
       >
         {/* Section label */}
@@ -241,9 +272,10 @@ export default function Projects() {
               origin-left
               bg-[#7bd0ff]
             "
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
+            initial={alreadyAnimated ? false : { scaleX: 0 }}
+            whileInView={alreadyAnimated ? undefined : { scaleX: 1 }}
             viewport={viewport}
+            animate={alreadyAnimated ? { scaleX: 1 } : undefined}
             transition={{
               duration: 0.8,
               ease: EASE,

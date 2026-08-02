@@ -65,12 +65,12 @@ export const metadata: Metadata = {
 },
 
   // Add this when you have your final domain.
-  // alternates: {
-  //   canonical: "https://yourdomain.com",
-  // },
+  alternates: {
+    canonical: "https://arpanverma.vercel.app/",
+  },
 
   // Add this when you have your final domain.
-  // metadataBase: new URL("https://yourdomain.com"),
+  metadataBase: new URL("https://arpanverma.vercel.app/"),
 };
 
 export const viewport: Viewport = {

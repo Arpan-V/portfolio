@@ -21,17 +21,7 @@ export type Project = {
 };
 
 export const projects: Project[] = [
-  {
-    id: 1,
-    title: "NEURAL_STREAM V4",
-    description:
-      "Real-time processing engine for high-frequency trading data, utilizing Kafka and specialized Go routines for 2ms latency.",
-    technologies: ["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"],
-    image: project1,
-    imageAlt: "NEURAL_STREAM V4 project preview",
-    span: 2,
-    
-  },
+  
   {
     id: 2,
     title: "SENTINEL_AUTH",
@@ -56,13 +46,24 @@ export const projects: Project[] = [
     span: 1,
   },
   {
-    id: 4,
-    title: "GRAPH_SCHEMA_VIZ",
+    id: 1,
+    title: "NEURAL_STREAM V4",
     description:
-      "Interactive schema visualizer for GraphQL and Neo4j. Handles schemas with 500+ nodes without UI lag.",
-    technologies: ["REACT", "D3.JS", "NEO4J"],
-    image: project4,
-    imageAlt: "GRAPH_SCHEMA_VIZ project preview",
+      "Real-time processing engine for high-frequency trading data, utilizing Kafka and specialized Go routines for 2ms latency.",
+    technologies: ["GO_1.21", "APACHE_KAFKA", "KUBERNETES", "PROMETHEUS"],
+    image: project1,
+    imageAlt: "NEURAL_STREAM V4 project preview",
     span: 2,
+    
   },
+  // {
+  //   id: 4,
+  //   title: "GRAPH_SCHEMA_VIZ",
+  //   description:
+  //     "Interactive schema visualizer for GraphQL and Neo4j. Handles schemas with 500+ nodes without UI lag.",
+  //   technologies: ["REACT", "D3.JS", "NEO4J"],
+  //   image: project4,
+  //   imageAlt: "GRAPH_SCHEMA_VIZ project preview",
+  //   span: 2,
+  // },
 ];

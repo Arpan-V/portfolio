@@ -22,6 +22,7 @@ import {
   MoveLeft,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import { useIntersectionObserver } from "@/lib/UseIntersectionObserver";
 
@@ -198,7 +199,7 @@ export default function Navbar() {
         className="fixed top-0 z-50 h-[70px] w-full border-b border-white/10 bg-[#050b18]/66 backdrop-blur-md"
       >
         <div className="flex h-full items-center justify-between gap-4 px-6">
-          <a
+          <Link
             href="/#projects"
             className="flex items-center gap-3 cursor-pointer"
             aria-label="Arpan Verma — Projects"
@@ -207,15 +208,15 @@ export default function Navbar() {
             <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
               ΛRPΛN
             </span>
-          </a>
+          </Link>
 
-          <a
+          <Link
             href="/#projects"
             className="group flex items-center gap-2 sm:gap-3 font-display font-semibold text-xs sm:text-sm md:text-base uppercase tracking-widest text-[#7bd0ff] transition-opacity duration-300 hover:opacity-80"
           >
             <MoveLeft className="h-5 w-7 sm:h-6 sm:w-9 shrink-0 transition-transform duration-300 group-hover:-translate-x-1" />
             <span>Go back to projects</span>
-          </a>
+          </Link>
         </div>
       </header>
     );
@@ -227,7 +228,7 @@ export default function Navbar() {
       className="fixed top-0 z-50 h-[70px] w-full border-b border-white/10 bg-[#050b18]/66 backdrop-blur-md"
     >
       <div className="flex justify-between items-center px-6 pt-6 pb-3 md:py-4">
-        <a
+        <Link
           href="#home"
           className="flex items-center gap-3 cursor-pointer"
           aria-label="Arpan Verma — Home"
@@ -236,19 +237,19 @@ export default function Navbar() {
           <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
             ΛRPΛN
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav aria-label="Primary" className="hidden md:flex gap-8 items-center">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
               aria-current={active === l.href ? "location" : undefined}
               className={linkClass(l.href)}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
           <a
             href={RESUME_URL}
@@ -294,7 +295,7 @@ export default function Navbar() {
         {links.map((l) => {
           const Icon = l.icon;
           return (
-            <a
+            <Link
               key={l.href}
               href={l.href}
               onClick={close}
@@ -303,7 +304,7 @@ export default function Navbar() {
             >
               <Icon className={`h-5 w-5 ${iconClass(l.href)}`} />
               <span>{l.label}</span>
-            </a>
+            </Link>
           );
         })}
 

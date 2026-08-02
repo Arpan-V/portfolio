@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { ChevronUp, ChevronLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -25,13 +26,13 @@ export default function Footer() {
           <p className="font-body text-xs text-silver/77">
             © {new Date().getFullYear()} Arpan. All rights reserved.
           </p>
-          <a
+          <Link
             href={href}
             aria-label={ariaLabel}
             className="grid h-9 w-9 shrink-0 place-items-center rounded border border-[#7bd0ff] lg:border-[#45464d] bg-[#131b2e] text-[#7bd0ff] lg:text-silver/70 transition-colors hover:border-[#7bd0ff] hover:text-[#7bd0ff]"
           >
             <Icon className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
