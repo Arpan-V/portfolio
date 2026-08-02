@@ -55,19 +55,45 @@ export default function Navbar() {
     []
   );
   const [mounted, setMounted] = useState(0);
+  const visibleRef = useRef<Record<string, boolean>>({});
 
-  // Sections are rendered by the page, not by the navbar, so resolve them by id.
-  useLayoutEffect(() => {
-    let changed = false;
-    links.forEach((l, i) => {
-      const el = document.getElementById(l.href.slice(1));
-      if (sectionRefs[i].current !== el) {
-        sectionRefs[i].current = el;
-        changed = true;
-      }
-    });
-    if (changed) setMounted((n) => n + 1);
-  }, [sectionRefs]);
+  // Sections are rendered by the page, not by the navbar, and the navbar lives in
+  // the layout so it stays mounted across client-side navigation. Re-resolve the
+  // nodes on every pathname change, otherwise coming back from /projects/* with the
+  // browser Back button leaves the refs pointing at detached (or null) nodes and the
+  // observer never re-subscribes -> the active link freezes on whatever was last set.
+  useEffect(() => {
+    let raf = 0;
+    let cancelled = false;
+
+    const resolve = () => {
+      if (cancelled) return;
+      let changed = false;
+      let found = 0;
+      links.forEach((l, i) => {
+        const el = isHome ? document.getElementById(l.href.slice(1)) : null;
+        if (el) found++;
+        if (sectionRefs[i].current !== el) {
+          sectionRefs[i].current = el;
+          changed = true;
+        }
+      });
+      if (changed) setMounted((n) => n + 1);
+      // Sections can hydrate a frame later after a back navigation; keep looking
+      // until at least one is present.
+      if (isHome && found === 0) raf = requestAnimationFrame(resolve);
+    };
+
+    // Stale visibility from the previous page must not decide the active link.
+    visibleRef.current = {};
+    resolve();
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+    };
+  }, [sectionRefs, pathname, isHome]);
+
 
   // Measure the header once, and again only when it actually resizes.
   useLayoutEffect(() => {
@@ -86,8 +112,6 @@ export default function Navbar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [sectionRefs, mounted]
   );
-
-  const visibleRef = useRef<Record<string, boolean>>({});
 
   useIntersectionObserver(
     observedRefs,
