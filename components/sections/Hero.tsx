@@ -1,7 +1,7 @@
 import { Code, FolderGit2 } from "lucide-react";
 
 import ProjectCarousel from "../ui/ProjectCarousel";
-import { GitHubIcon } from "@/data/GitHubIcon.tsx";
+import { GitHubIcon } from "@/data/GitHubIcon";
 
 import DotGrid from "../ui/DotGrid";
 import Link from "next/link";
