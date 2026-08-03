@@ -189,7 +189,7 @@ export default function About() {
             variants={variants}
             className="lg:col-span-5"
           >
-            <div className="border-2 border-[#D9DADB]/45 p-8 sm:p-10">
+            <div className="hidden lg:block border-2 border-[#D9DADB]/45 p-8 sm:p-10">
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4 sm:gap-6">
                 {aboutStats.map((stat) => (

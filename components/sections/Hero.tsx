@@ -1,6 +1,7 @@
 import { Code, FolderGit2 } from "lucide-react";
 
 import ProjectCarousel from "../ui/ProjectCarousel";
+import { GitHubIcon } from "@/data/GitHubIcon.tsx";
 
 import DotGrid from "../ui/DotGrid";
 import Link from "next/link";
@@ -57,7 +58,7 @@ export default function Hero() {
                 rel="noopener noreferrer"
                 className="relative z-10 inline-flex cursor-pointer items-center justify-center gap-2 hero-gradient border border-accent px-5 py-3 font-display text-xs font-bold uppercase tracking-widest text-accent transition-colors hover:border-accent hover:text-accent sm:w-auto sm:px-7 sm:py-3.5 sm:text-sm lg:border-border/60 lg:text-silver"
               >
-                <FolderGit2 className="h-4 w-4 sm:h-5 sm:w-5" />
+                <GitHubIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                 GitHub
               </a>
             </div>

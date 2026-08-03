@@ -204,7 +204,7 @@ export default function Navbar() {
             className="flex items-center gap-3 cursor-pointer"
             aria-label="Arpan Verma — Projects"
           >
-            <ChessKing className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
+            <Terminal className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
             <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
               ΛRPΛN
             </span>
@@ -233,7 +233,7 @@ export default function Navbar() {
           className="flex items-center gap-3 cursor-pointer"
           aria-label="Arpan Verma — Home"
         >
-          <ChessKing className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
+          <Terminal className="lg:h-6 lg:w-6 w-5 h-5 text-primary" />
           <span className="font-body font-black text-lg sm:text-xl md:text-2xl tracking-tighter text-[#bec6e0]">
             ΛRPΛN
           </span>
