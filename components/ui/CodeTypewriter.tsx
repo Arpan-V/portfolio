@@ -1,15 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import hljs from "highlight.js/lib/core";
-import java from "highlight.js/lib/languages/java";
-import "highlight.js/styles/atom-one-dark.css";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { codeToTokens, type ThemedToken } from "shiki";
+import { useIntersectionObserver } from "@/lib/UseIntersectionObserver";
 
-hljs.registerLanguage("java", java);
-
-/** Characters typed per animation frame tick. */
+/** Legacy animation constants — reused as reveal timing configuration only. */
 const CHARS_PER_TICK = 2;
 const TICK_MS = 12;
+
+/**
+ * Streaming feel: several ticks are accumulated into one visual update, so the
+ * reveal front jumps forward by a small chunk (a word-ish group) instead of
+ * single characters.
+ */
+const TICKS_PER_CHUNK = 4;
+const CHUNK_MS = TICK_MS * TICKS_PER_CHUNK; // ~48ms between chunks
+const BASE_CHUNK_CHARS = CHARS_PER_TICK * TICKS_PER_CHUNK; // ~8 chars target
+
+/** Precompute chunk end offsets over the raw stream (word/whitespace aware). */
+function buildChunks(source: string): number[] {
+  const ends: number[] = [];
+  let i = 0;
+  let n = 0;
+  while (i < source.length) {
+    // vary chunk size a little so it feels natural, not metronomic
+    const target = BASE_CHUNK_CHARS + (n % 3) * 2;
+    let j = Math.min(source.length, i + target);
+    // extend to the next word/whitespace boundary so words arrive whole
+    while (j < source.length && !/\s/.test(source[j]!)) j++;
+    // swallow trailing spaces / a single newline with indentation
+    while (j < source.length && (source[j] === " " || source[j] === "\t")) j++;
+    if (j <= i) j = i + 1;
+    ends.push(j);
+    i = j;
+    n++;
+  }
+  if (ends.length === 0 || ends[ends.length - 1]! < source.length) ends.push(source.length);
+  return ends;
+}
 
 type CodeTypewriterProps = {
   code: string;
@@ -26,68 +54,123 @@ export default function CodeTypewriter({
   className = "mt-10 sm:mt-14",
   ariaLabel = "Project source code",
 }: CodeTypewriterProps) {
-  const [typed, setTyped] = useState("");
+  const [lines, setLines] = useState<ThemedToken[][] | null>(null);
   const [started, setStarted] = useState(false);
-  const [done, setDone] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [revealed, setRevealed] = useState(0);
   const sectionRef = useRef<HTMLElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const frontRef = useRef<HTMLSpanElement | null>(null);
+  const userScrolledRef = useRef(false);
 
-  // Start typing only when the code panel scrolls into view.
+  // Shiki highlights the COMPLETE source once, before any animation.
   useEffect(() => {
-    const node = sectionRef.current;
-    if (!node) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setStarted(true);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setStarted(true);
-          observer.disconnect();
+    let cancelled = false;
+    codeToTokens(code, { lang: language as never, theme: "dark-plus" })
+      .then((result) => {
+        if (!cancelled) setLines(result.tokens);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setLines(code.split("\n").map((line) => [{ content: line } as ThemedToken]));
         }
-      },
-      { threshold: 0.25 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [code, language]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
-  // Typewriter loop.
-  useEffect(() => {
-    if (!started) return;
-    const reduceMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reduceMotion) {
-      setTyped(code);
-      setDone(true);
-      return;
-    }
-
-    let i = 0;
-    const id = window.setInterval(() => {
-      i = Math.min(i + CHARS_PER_TICK, code.length);
-      setTyped(code.slice(0, i));
-      if (i >= code.length) {
-        window.clearInterval(id);
-        setDone(true);
+  // Reveal starts when the panel enters the viewport (existing shared hook).
+  useIntersectionObserver(
+    sectionRef,
+    (entry) => {
+      if (entry.isIntersecting) {
+        setStarted(true);
       }
-    }, TICK_MS);
+    },
+    { threshold: 0.25 },
+  );
 
+  /**
+   * Character offsets for the already-tokenized output: each token knows where it
+   * starts within the full code stream, so the reveal front can cut *inside* a
+   * token without ever re-running Shiki.
+   */
+  const layout = useMemo(() => {
+    if (!lines) return { rows: [], totalChars: 0 };
+    let offset = 0;
+    const rows = lines.map((line) => {
+      const tokens = line.map((token) => {
+        const start = offset;
+        offset += token.content.length;
+        return { token, start };
+      });
+      offset += 1; // newline
+      return tokens;
+    });
+    return { rows, totalChars: offset };
+  }, [lines]);
+
+  const chunks = useMemo(() => buildChunks(code), [code]);
+
+  const animating = started && !reduceMotion && !!lines;
+  const revealCount = animating ? revealed : layout.totalChars;
+
+  // Single progressive pass over the tokenized result (no re-highlighting):
+  // the front advances chunk by chunk, ChatGPT-stream style.
+  useEffect(() => {
+    if (!animating || layout.totalChars === 0) return;
+    const el = scrollRef.current;
+    if (el) el.scrollTop = 0;
+    userScrolledRef.current = false;
+    setRevealed(0);
+    let index = 0;
+    const id = window.setInterval(() => {
+      const next = chunks[index++];
+      if (next === undefined || next >= layout.totalChars) {
+        setRevealed(layout.totalChars);
+        window.clearInterval(id);
+        return;
+      }
+      setRevealed(next);
+    }, CHUNK_MS);
     return () => window.clearInterval(id);
-  }, [started, code]);
+  }, [animating, layout.totalChars, chunks]);
 
-  // Keep the newest line in view while typing.
+  // Follow the reveal front only once it approaches the bottom of the viewport.
+  useEffect(() => {
+    if (!animating) return;
+    const el = scrollRef.current;
+    const front = frontRef.current;
+    if (!el || !front || userScrolledRef.current) return;
+    const frontBottom = front.offsetTop + front.offsetHeight;
+    const viewBottom = el.scrollTop + el.clientHeight;
+    const margin = front.offsetHeight * 2;
+    if (frontBottom > viewBottom - margin) {
+      el.scrollTo({ top: frontBottom - el.clientHeight + margin, behavior: "smooth" });
+    }
+  }, [revealed, animating]);
+
+  // Respect manual scrolling: stop auto-following once the user takes over.
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el || done) return;
-    el.scrollTop = el.scrollHeight;
-  }, [typed, done]);
-
-  const highlighted = hljs.highlight(typed, { language }).value;
+    if (!el) return;
+    const stop = () => {
+      userScrolledRef.current = true;
+    };
+    el.addEventListener("wheel", stop, { passive: true });
+    el.addEventListener("touchmove", stop, { passive: true });
+    return () => {
+      el.removeEventListener("wheel", stop);
+      el.removeEventListener("touchmove", stop);
+    };
+  }, []);
 
   async function handleCopy() {
     try {
@@ -162,10 +245,32 @@ export default function CodeTypewriter({
           className="h-[320px] overflow-auto px-4 py-4 sm:h-[440px] sm:px-6 lg:h-[560px]"
         >
           <pre className="!m-0 !bg-transparent !p-0">
-            <code
-              className="hljs !bg-transparent whitespace-pre font-mono text-[11px] leading-relaxed sm:text-[13px] lg:text-sm"
-              dangerouslySetInnerHTML={{ __html: highlighted }}
-            />
+            <code className="!bg-transparent whitespace-pre font-mono text-[11px] leading-relaxed sm:text-[13px] lg:text-sm">
+              {layout.rows.map((row, lineIndex) => (
+                <span key={lineIndex} style={{ display: "block", minHeight: "1.5em" }}>
+                  {row.map(({ token, start }, tokenIndex) => {
+                    const shown = Math.max(0, Math.min(token.content.length, revealCount - start));
+                    const visible = token.content.slice(0, shown);
+                    const pending = token.content.slice(shown);
+                    const isFront =
+                      revealCount >= start && revealCount <= start + token.content.length;
+                    return (
+                      <span key={tokenIndex} style={{ color: token.color }}>
+                        {visible}
+                        {isFront ? (
+                          <span ref={frontRef} style={{ display: "inline-block", width: 0 }} aria-hidden />
+                        ) : null}
+                        {pending ? (
+                          <span style={{ opacity: 0 }} aria-hidden>
+                            {pending}
+                          </span>
+                        ) : null}
+                      </span>
+                    );
+                  })}
+                </span>
+              ))}
+            </code>
           </pre>
         </div>
       </div>
