@@ -8,9 +8,9 @@ export default function Footer() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  const href = isHome ? "#home" : "/#projects";
-  const Icon = isHome ? ChevronUp : ChevronLeft;
-  const ariaLabel = isHome ? "Go to projects section" : "Back to top";
+  // const href = isHome ? "#home" : "/#projects";
+  // const Icon = isHome ? ChevronUp : ChevronLeft;
+  // const ariaLabel = isHome ? "Back to top" : "Go to projects section";
 
   return (
     <footer className="w-full border-t border-[#45464d] bg-[#101415]">
@@ -26,13 +26,23 @@ export default function Footer() {
           <p className="font-body text-xs text-silver/77">
             © {new Date().getFullYear()} Arpan. All rights reserved.
           </p>
-          <Link
-            href={href}
-            aria-label={ariaLabel}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded border border-[#7bd0ff] lg:border-[#45464d] bg-[#131b2e] text-[#7bd0ff] lg:text-silver/70 transition-colors hover:border-[#7bd0ff] hover:text-[#7bd0ff]"
-          >
-            <Icon className="h-4 w-4" />
-          </Link>
+          {isHome ? (
+  <a
+    href="#home"
+    aria-label="Back to top"
+    className="grid h-9 w-9 shrink-0 place-items-center rounded border border-[#7bd0ff] lg:border-[#45464d] bg-[#131b2e] text-[#7bd0ff] lg:text-silver/70 transition-colors hover:border-[#7bd0ff] hover:text-[#7bd0ff]"
+  >
+    <ChevronUp className="h-4 w-4" />
+  </a>
+) : (
+  <Link
+    href="/#projects"
+    aria-label="Go to projects section"
+    className="grid h-9 w-9 shrink-0 place-items-center rounded border border-[#7bd0ff] lg:border-[#45464d] bg-[#131b2e] text-[#7bd0ff] lg:text-silver/70 transition-colors hover:border-[#7bd0ff] hover:text-[#7bd0ff]"
+  >
+    <ChevronLeft className="h-4 w-4" />
+  </Link>
+)}
         </div>
       </div>
     </footer>
