@@ -53,7 +53,7 @@ export default function Hero() {
               </a>
 
               <a
-                href="https://github.com/arpan-v"
+                href="https://github.com/arpanwave"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative z-10 inline-flex cursor-pointer items-center justify-center gap-2 hero-gradient border border-accent px-5 py-3 font-display text-xs font-bold uppercase tracking-widest text-accent transition-colors hover:border-accent hover:text-accent sm:w-auto sm:px-7 sm:py-3.5 sm:text-sm lg:border-border/60 lg:text-silver"

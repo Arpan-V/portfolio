@@ -246,7 +246,7 @@ export default function HangmanPage() {
             source code, written live.
           </p>
           <a
-            href="https://github.com/arpan-v/java-hangman"
+            href="https://github.com/arpanwave/java-hangman"
             target="_blank"
             rel="noopener noreferrer"
             className="group mt-6 inline-flex items-center gap-2 rounded-lg border border-white/12 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#c3cbcd] shadow-[0_20px_60px_-30px_rgba(0,0,0,0.9)] backdrop-blur-md transition-colors hover:border-[#7bd0ff]/45 hover:bg-[#7bd0ff]/10 hover:text-[#7bd0ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7bd0ff]/60 sm:text-xs"
