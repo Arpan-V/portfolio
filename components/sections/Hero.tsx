@@ -4,7 +4,7 @@ import ProjectCarousel from "../ui/ProjectCarousel";
 import { GitHubIcon } from "@/data/GitHubIcon";
 
 import DotGrid from "../ui/DotGrid";
-import Link from "next/link";
+
 
 export default function Hero() {
   return (

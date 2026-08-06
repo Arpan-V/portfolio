@@ -3,14 +3,18 @@
 import { motion, useReducedMotion } from "framer-motion";
 import {
   Mail,
-  MapPin,
   Code,
   Briefcase,
   MessageSquare,
   Send,
 } from "lucide-react";
 
+import { GitHubIcon } from "@/data/GitHubIcon";
+
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+const parts = ["arpan", "24622", "@" , "gmail", ".", "com"];
+const email = parts.join("");
 
 export default function Contact() {
   const reduce = useReducedMotion();
@@ -147,7 +151,7 @@ export default function Contact() {
 
                   {/* TODO: Replace with your real email */}
                   <a
-                    href="mailto:arpan24622@gmail.com"
+                    href={`mailto:${email}`}
                     className="
                       group
                       flex
@@ -184,7 +188,7 @@ export default function Contact() {
                           text-[10px]
                           uppercase
                           tracking-[0.25em]
-                          text-silver/60
+                          text-silver/70
                         "
                       >
                         Email
@@ -199,7 +203,66 @@ export default function Contact() {
                           group-hover:text-[#7bd0ff]
                         "
                       >
-                        arpan24622@gmail.com
+                        {email}
+                      </div>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://github.com/arpanwave"
+                    target="_blank"
+                    className="
+                      group
+                      flex
+                      items-center
+                      gap-4
+                    "
+                  >
+                    <div
+                      className="
+                        flex
+                        h-12
+                        w-12
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-[#45464d]
+                        bg-[#131b2e]
+                      "
+                      aria-hidden="true"
+                    >
+                      <GitHubIcon
+                        className="h-5 w-5 text-[#7bd0ff]"
+                        aria-hidden="true"
+                      />
+                    </div>
+
+                    <div>
+                      <div
+                        className="
+                          mb-1
+                          font-display
+                          text-[10px]
+                          uppercase
+                          tracking-[0.25em]
+                          text-silver/70
+                        "
+                      >
+                        GitHub
+                      </div>
+
+                      <div
+                        className="
+                          font-body
+                          text-sm
+                          text-silver/90
+                          transition-colors
+                          group-hover:text-[#7bd0ff]
+                        "
+                      >
+                        github.com/arpanwave
                       </div>
                     </div>
                   </a>
@@ -260,7 +323,7 @@ export default function Contact() {
                   SOCIAL LINKS
               ================================================= */}
 
-              <div
+              {/* <div
                 className="
                   mt-10
                   border-t
@@ -282,10 +345,10 @@ export default function Contact() {
                 </h3>
 
                 <div className="flex gap-3">
-                  {/* GitHub */}
+                 
 
                   <a
-                    href="https://github.com/arpan-v"
+                    href=""
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Arpan Verma on GitHub"
@@ -313,11 +376,9 @@ export default function Contact() {
                     />
                   </a>
 
-                  {/* LinkedIn */}
-
-                  {/* TODO: Replace with your real LinkedIn URL */}
+                  
                   <a
-                    href="https://www.linkedin.com/in/arpan99"
+                    href=""
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Arpan Verma on LinkedIn"
@@ -345,11 +406,9 @@ export default function Contact() {
                     />
                   </a>
 
-                  {/* Twitter / X */}
-
-                  {/* TODO: Replace with your real X/Twitter URL */}
+                 
                   <a
-                    href="mailto:arpan24622@gmail.com"
+                    href=""
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Arpan Verma on X"
@@ -377,7 +436,7 @@ export default function Contact() {
                     />
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
